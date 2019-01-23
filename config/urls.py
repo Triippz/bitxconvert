@@ -1,6 +1,6 @@
 from django.conf import settings
 from django.conf.urls import url
-from django.urls import include, path
+from django.urls import include, path, re_path
 from django.conf.urls.static import static
 from django.contrib import admin
 from django.views.generic import TemplateView
@@ -12,7 +12,6 @@ from wagtail.core import urls as wagtail_urls
 from wagtail.images.views.serve import ServeView
 from wagtail.contrib.sitemaps.views import sitemap
 
-from wagtail_feeds.feeds import BasicFeed, BasicJsonFeed, ExtendedFeed, ExtendedJsonFeed
 
 urlpatterns = [
     path("", TemplateView.as_view(template_name="pages/home.html"), name="home"),
@@ -22,7 +21,7 @@ urlpatterns = [
         name="about",
     ),
     # Django Admin, use {% url 'admin:index' %}
-    path(r'^django-admin/', (admin.site.urls)),
+    path(r'django-admin/', (admin.site.urls)),
     # User management
     path(
         "users/",
@@ -32,19 +31,9 @@ urlpatterns = [
     # Your stuff: custom urls includes go here
 
     # WAGTAIL URLS
-    url(r'^admin/', include(wagtailadmin_urls)),
-    url(r'^documents/', include(wagtaildocs_urls)),
-    url('^sitemap\.xml$', sitemap),
-    url(r'^blog/feed/basic$', BasicFeed(), name='basic_feed'),
-    url(r'^blog/feed/extended$', ExtendedFeed(), name='extended_feed'),
-
-    # JSON feed
-    url(r'^blog/feed/basic.json$', BasicJsonFeed(), name='basic_json_feed'),
-    url(r'^blog/feed/extended.json$', ExtendedJsonFeed(), name='extended_json_feed'),
-
-    # For anything not caught by a more specific rule above, hand over to
-    # Wagtail's serving mechanism
-    url(r'', include(wagtail_urls)),
+    re_path(r'^cms/', include(wagtailadmin_urls)),
+    re_path(r'^documents/', include(wagtaildocs_urls)),
+    re_path(r'^news/', include(wagtail_urls)),
 
 ] + static(
     settings.MEDIA_URL, document_root=settings.MEDIA_ROOT

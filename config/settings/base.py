@@ -74,11 +74,6 @@ DJANGO_APPS = [
     'wagtail.search',
     'wagtail.admin',
     'wagtail.core',
-    'wagtail.contrib.postgres_search',
-    'wagtailfontawesome',
-    'wagtailmarkdown',
-    'wagtail_feeds',
-    'wagalytics',
 
     'modelcluster',
     'taggit',
@@ -89,10 +84,13 @@ THIRD_PARTY_APPS = [
     'allauth.account',
     'allauth.socialaccount',
     'rest_framework',
+    'fontawesome',
 ]
 LOCAL_APPS = [
     'bitxconvert.users.apps.UsersAppConfig',
     # Your stuff: custom apps go here
+    'bitxconvert.convert',
+    'bitxconvert.news',
 ]
 # https://docs.djangoproject.com/en/dev/ref/settings/#installed-apps
 INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
@@ -286,10 +284,10 @@ WAGTAIL_SITE_NAME = "BitXConvert"
 
 # Good for sites having less than a million pages.
 # Use Elasticsearch as the search backend for extra performance search results
-WAGTAILSEARCH_BACKENDS = {
-    'default': {
-        'BACKEND': 'wagtail.contrib.postgres_search.backend',
-    },
-}
+# WAGTAILSEARCH_BACKENDS = {
+#     'default': {
+#         'BACKEND': 'wagtail.contrib.postgres_search.backend',
+#     },
+# }
 
 # NEED TO MIGRATE
