@@ -85,6 +85,8 @@ THIRD_PARTY_APPS = [
     'allauth.socialaccount',
     'rest_framework',
     'fontawesome',
+    'xlrd',
+    'xlsxwriter',
 ]
 LOCAL_APPS = [
     'bitxconvert.users.apps.UsersAppConfig',
@@ -253,7 +255,6 @@ ADMINS = [
 # https://docs.djangoproject.com/en/dev/ref/settings/#managers
 MANAGERS = ADMINS
 
-
 # django-allauth
 # ------------------------------------------------------------------------------
 ACCOUNT_ALLOW_REGISTRATION = env.bool('DJANGO_ACCOUNT_ALLOW_REGISTRATION', True)
@@ -268,9 +269,37 @@ ACCOUNT_ADAPTER = 'bitxconvert.users.adapters.AccountAdapter'
 # https://django-allauth.readthedocs.io/en/latest/configuration.html
 SOCIALACCOUNT_ADAPTER = 'bitxconvert.users.adapters.SocialAccountAdapter'
 
-
 # Your stuff...
 # ------------------------------------------------------------------------------
+
+# CONVERSION
+TMP_FILE_LOC = ROOT_DIR.path('tmp')
+DOWNLOAD_FILE_DIR = 'csv'
+DOWNLOAD_FILE_LOC = str(APPS_DIR.path('media/csv'))
+
+CONVERT_EXCHANGES = [
+    'BITTREX',
+    'BINANCE',
+    'COINBASE',
+]
+CONVERT_SUPPORTED_EXCHANGES = (
+    ('BINANCE', 'BINANCE'),
+    ('BITTREX', "BITTREX"),
+    ('COINBASE', 'COINBASE'),
+)
+CONVERT_SERVICES = [
+    'MANUAL',
+    'CRYPTOTRADER',
+    'BITCOINTAX',
+    'COINTRACKER',
+]
+CONVERT_SUPPORTED_SERVICES = (
+    ('MANUAL', 'MANUAL'),
+    ('CRYPTOTRADER', "CRYPTOTRADER.TAX"),
+    ('BITCOINTAX', 'BITCOIN.TAX'),
+    ('COINTRACKER', 'COINTRACKER.IO'),
+)
+CONVERT_FILE_TYPES = ['.xls', '.xlsx']
 
 # WAGTAIL
 
@@ -278,7 +307,6 @@ SOCIALACCOUNT_ADAPTER = 'bitxconvert.users.adapters.SocialAccountAdapter'
 # see https://github.com/tomdyson/wagalytics
 GA_KEY_FILEPATH = env('GA_KEY_FILEPATH', default='/path/to/secure/directory/your-key.json')
 GA_VIEW_ID = env('GA_VIEW_ID', default='ga:xxxxxxxxxxxxx')
-
 
 WAGTAIL_SITE_NAME = "BitXConvert"
 

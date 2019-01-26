@@ -1,0 +1,64 @@
+{% extends 'base.html' %}
+{% load static fontawesome %}
+
+
+{% block content %}
+{#  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">#}
+
+  <div class="container">
+    <div class="row" style="background-color: #1a6398">
+      <div class="col">
+        <p class="h1 text-center text-white">Your file is ready!</p>
+        <p class="text-center text-white">Feel free to review the information below and download your file.</p>
+        <p class="text-center text-white">
+          Want to view this and other files for later?
+          <a href="#">Sign Up!</a>
+        </p>
+      </div>
+    </div>
+    <div class="row">
+      <table class="table">
+        <tbody>
+        <tr>
+          <th scope="row"><strong>Date Processed</strong></th>
+          <td>{{ created_at }}</td>
+        </tr>
+        <tr>
+          <th scope="row"><strong>Transactions Processed</strong></th>
+          <td>{{ processed }}</td>
+        </tr>
+        <tr>
+          <th scope="row"><strong>Exchange Used</strong></th>
+          <td>{{ exchange }}</td>
+        </tr>
+        <tr>
+          <th scope="row"><strong>Tax Service</strong></th>
+          <td>{{ service }}</td>
+        </tr>
+        <tr>
+          <th scope="row"><strong>Files Processed</strong></th>
+          <td>{{ files }}</td>
+        </tr>
+        </tbody>
+      </table>
+
+    </div>
+    <hr class="my-5">
+    <div class="row">
+      <div class="col-md-8">
+        <p class="h6">Your File</p>
+        <p>{{ file_name }}</p>
+      </div>
+      <div class="col-md-4">
+        <a class="btn btn-md blue-gradient" href="{% url 'convert:download' file=file_name %}">
+          <i>{% fontawesome_icon 'file-download' large=True %}</i>
+          Download Now
+        </a>
+      </div>
+    </div>
+  </div>
+
+
+
+
+{% endblock %}

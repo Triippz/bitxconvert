@@ -1,0 +1,96 @@
+{% extends 'base.html' %}
+{% load static crispy_forms_tags %}
+
+{% block content %}
+
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12 text-center">
+        <p class="h1 text-center">
+          Cryptocurrency Exchange .XLS(L) Converter
+        </p>
+        <p>
+          We will guide you through a few easy steps to get you on your way to doing your taxes. To ensure
+          we correctly fix your file, please ensure you read all steps. If any errors occur, please feel
+          free to contact us.
+        </p>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12">
+        <div class="z-depth-1 m-2">
+          <div class="p-4">
+            {% if error %}
+              <h6 class="red-text"><strong>{{ error }}</strong></h6>
+            {% endif %}
+            <form method="post" enctype="multipart/form-data" id="convert">
+              {% csrf_token %}
+              <ul class="stepper linear">
+                <li class="step active">
+                  <div data-step-label="Which the files are from" class="step-title waves-effect waves-dark">Choose Exchange</div>
+                  <div class="step-new-content">
+                    <div class="row">
+                      <div class="md-form col-12 ml-auto">
+
+                        <select class="browser-default custom-select mb-4" form="convert" name="exchange">
+                          <option value="" disabled="" selected="">{{ form.fields.exchange.label }}</option>
+                          {% for exchange in form.fields.exchange.choices %}
+                            <option value="{{ exchange }}">{{ exchange.1 }}</option>
+                          {% endfor %}
+                        </select>
+
+                      </div>
+                    </div>
+                    <div class="step-actions">
+                      <button class="waves-effect waves-dark btn btn-sm btn-primary next-step">CONTINUE</button>
+                    </div>
+                  </div>
+                </li>
+                <li class="step">
+                  <div data-step-label="Choose service you plan on using. We make a file specific for that service."
+                       class="step-title waves-effect waves-dark">Choose Tax Service</div>
+                  <div class="step-new-content">
+                    <div class="row">
+                      <div class="md-form col-12 ml-auto">
+                        <select class="browser-default custom-select mb-4" form="convert" name="convert">
+                          <option value="" disabled="" selected="">{{ form.fields.service.label }}</option>
+                          {% for service in form.fields.service.choices %}
+                            <option value="{{ service }}">{{ service.1 }}</option>
+                          {% endfor %}
+                        </select>
+                      </div>
+                    </div>
+                    <div class="step-actions">
+                      <button class="waves-effect waves-dark btn btn-sm btn-primary next-step">CONTINUE</button>
+                      <button class="waves-effect waves-dark btn btn-sm btn-secondary previous-step">BACK</button>
+                    </div>
+                  </div>
+                </li>
+                <li class="step">
+                  <div data-step-label="Upload up to 8 files from that exchange"
+                       class="step-title waves-effect waves-dark">Upload all files from exchange, for that tax year.</div>
+                  <div class="step-new-content">
+                    {{ form.file_field }}
+                    <div class="step-actions">
+                      <button class="waves-effect waves-dark btn btn-sm btn-primary m-0 mt-4" type="submit">SUBMIT
+                      </button>
+                    </div>
+                  </div>
+                </li>
+              </ul>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <script src="{% static 'js/jquery-3.3.1.min.js' %}"></script>
+  {#  <script type="text/javascript" src="{% static 'js/addons-pro/stepper.min.js' %}"></script>#}
+  <script type="text/javascript">
+    $(document).ready(function () {
+      $('.stepper').mdbStepper();
+    })
+  </script>
+{% endblock %}

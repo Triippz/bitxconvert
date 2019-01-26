@@ -20,10 +20,14 @@
   {% block css %}
 
     <!-- This file stores project-specific CSS -->
-    <link href="{% static 'css/mdb.css' %}" rel="stylesheet">
-    <link href="{% static 'css/bootstrap.css' %}" rel="stylesheet">
-    <link href="{% static 'css/style.css' %}" rel="stylesheet">
+    <link href="{% static 'css/mdb.min.css' %}" rel="stylesheet">
+    <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
+    <link href="{% static 'css/style.min.css' %}" rel="stylesheet">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 
+    <!-- Stepper CSS -->
+    <!-- Stepper CSS - minified-->
+    <link href="{% static 'css/addons-pro/stepper.min.css' %}" rel="stylesheet">
 
   {% endblock %}
 
@@ -96,8 +100,8 @@
 </div>
 
 {% wagtailuserbar %}
-<div id="wrap">
-  <div id="main" class="container">
+{#<div id="wrap">#}
+{#  <div id="main" >#}
     {% if messages %}
       {% for message in messages %}
         <div class="alert {% if message.tags %}alert-{{ message.tags }}{% endif %}">{{ message }}</div>
@@ -106,8 +110,9 @@
 
     {% block content %}
     {% endblock content %}
+{#</div>#}
 
-  </div> <!-- /container -->
+{#  </div> <!-- /container -->#}
 
   <!-- Footer -->
   <footer class="page-footer font-small stylish-color-dark pt-4">
@@ -222,10 +227,10 @@
 
     <!-- place project specific Javascript in this file -->
     <script src="{% static 'js/jquery-3.3.1.min.js' %}"></script>
-    <script src="{% static 'js/bootstrap.js' %}"></script>
+    <script src="{% static 'js/bootstrap.min.js' %}"></script>
     <script src="{% static 'js/mdb.min.js' %}"></script>
     <script src="{% static 'js/popper.min.js' %}"></script>
-
+    <script type="text/javascript" src="{% static 'js/addons-pro/stepper.min.js' %}"></script>
 
   {% endblock javascript %}
 </body>

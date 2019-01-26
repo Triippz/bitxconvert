@@ -6,65 +6,66 @@
 
 {% block content %}
 
-  <div class="intro">{{ page.intro|richtext }}</div>
+  <div class="container">
+    <div class="intro">{{ page.intro|richtext }}</div>
 
-  <section class="my-5">
+    <section class="my-5">
 
-    <!-- Section heading -->
-    <h2 class="h1-responsive font-weight-bold text-center my-5">{{ page.title }}</h2>
-    <!-- Section description -->
-    <p class="text-center dark-grey-text w-responsive mx-auto mb-5">{{ page.intro|richtext }}</p>
+      <!-- Section heading -->
+      <h2 class="h1-responsive font-weight-bold text-center my-5">{{ page.title }}</h2>
+      <!-- Section description -->
+      <p class="text-center dark-grey-text w-responsive mx-auto mb-5">{{ page.intro|richtext }}</p>
 
-    <!-- START ARTICLE -->
-    {% for post in newspages %}
-      {% with post=post.specific %}
-        <div class="row">
+      <!-- START ARTICLE -->
+      {% for post in newspages %}
+        {% with post=post.specific %}
+          <div class="row">
 
-          <!-- Grid column -->
-          <div class="col-lg-5 col-xl-4">
+            <!-- Grid column -->
+            <div class="col-lg-5 col-xl-4">
 
-            <!-- Featured image -->
-            {% with post.main_image as main_image %}
-              {% if main_image %}
-                <div class="view overlay rounded z-depth-1-half mb-lg-0 mb-4">
-                  {% image main_image fill-400x100 as tmp_img %}
-                  <img href="{% pageurl post %}" class="img-fluid" src="{{ tmp_img.url }}" alt="Article Image">
-                  <a>
-                    <div class="mask rgba-white-slight"></div>
-                  </a>
-                </div>
-              {% endif %}
-            {% endwith %}
+              <!-- Featured image -->
+              {% with post.main_image as main_image %}
+                {% if main_image %}
+                  <div class="view overlay rounded z-depth-1-half mb-lg-0 mb-4">
+                    {% image main_image fill-400x100 as tmp_img %}
+                    <img href="{% pageurl post %}" class="img-fluid" src="{{ tmp_img.url }}" alt="Article Image">
+                    <a>
+                      <div class="mask rgba-white-slight"></div>
+                    </a>
+                  </div>
+                {% endif %}
+              {% endwith %}
+
+            </div>
+            <!-- Grid column -->
+
+            <!-- Grid column -->
+            <div class="col-lg-7 col-xl-8">
+
+              <!-- Post title -->
+              <h3 href="{% pageurl post %}" class="font-weight-bold mb-3"><strong>{{ post.title }}</strong></h3>
+              <!-- Excerpt -->
+              <p class="dark-grey-text">{{ post.intro }}</p>
+              <!-- Post data -->
+              <p>by <a class="font-weight-bold">{{ post.author }}</a>, {{ post.date }}</p>
+              <!-- Read more button -->
+              <a href="{% pageurl post %}" class="btn btn-primary btn-md">Read</a>
+
+            </div>
+            <!-- Grid column -->
 
           </div>
-          <!-- Grid column -->
+        {% endwith %}
+      {% endfor %}
+      <!-- END ARTICLE -->
 
-          <!-- Grid column -->
-          <div class="col-lg-7 col-xl-8">
+      <hr class="my-5">
 
-            <!-- Post title -->
-            <h3 href="{% pageurl post %}" class="font-weight-bold mb-3"><strong>{{ post.title }}</strong></h3>
-            <!-- Excerpt -->
-            <p class="dark-grey-text">{{ post.intro }}</p>
-            <!-- Post data -->
-            <p>by <a class="font-weight-bold">{{ post.author }}</a>, {{ post.date }}</p>
-            <!-- Read more button -->
-            <a href="{% pageurl post %}" class="btn btn-primary btn-md">Read</a>
-
-          </div>
-          <!-- Grid column -->
-
-        </div>
-      {% endwith %}
-    {% endfor %}
-    <!-- END ARTICLE -->
-
-    <hr class="my-5">
-
-    </div>
-    <!-- Grid row -->
+  <!-- Grid row -->
 
   </section>
   <!-- Section: Blog v.3 -->
+  </div>
 
 {% endblock %}
