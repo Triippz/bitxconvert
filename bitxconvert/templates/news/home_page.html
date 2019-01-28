@@ -1,12 +1,36 @@
 {% extends "base.html" %}
 
-{% load wagtailcore_tags %}
+{% load wagtailcore_tags static %}
 
 {% block body_class %}template-homepage{% endblock %}
 
 {% block content %}
-  <div class="container">
-    {{ page.body|richtext }}
+  <div class="view jarallax" data-jarallax='{"speed": 0.2}' style="background-image: url('{% static 'images/bg/confused.jpg' %}');
+    background-repeat: no-repeat; background-size: cover; background-position: center center;">
+    <!-- Mask & flexbox options-->
+    <div class="mask rgba-black-light d-flex justify-content-center align-items-center">
+      <!-- Content -->
+      <div class="container">
+        <!--Grid row-->
+        <div class="row">
+          <!--Grid column-->
+          <div class="col-md-12 mb-4 white-text text-center">
+            <h1 class="h1-reponsive white-text text-uppercase font-weight-bold mb-0 pt-md-5 pt-5 wow fadeInDown"
+              data-wow-delay="0.3s"><strong>{{ page.title_text }}</strong></h1>
+            <hr class="hr-light my-4 wow fadeInDown" data-wow-delay="0.4s">
+            <div class="h5 text-uppercase mb-4 white-text wow fadeInDown" data-wow-delay="0.4s"><strong>
+              {{ page.body|richtext }}
+            </strong></div>
+            <a href="{% url 'convert:home' %}" class="btn btn-outline-white wow fadeInDown" data-wow-delay="0.4s">Let's Go!</a>
+          </div>
+          <!--Grid column-->
+        </div>
+        <!--Grid row-->
+      </div>
+      <!-- Content -->
+    </div>
+    <!-- Mask & flexbox options-->
   </div>
+  <!-- Full Page Intro -->
 
 {% endblock %}

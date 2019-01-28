@@ -74,6 +74,8 @@ DJANGO_APPS = [
     'wagtail.search',
     'wagtail.admin',
     'wagtail.core',
+    'wagtail.contrib.settings',
+    'wagtailfontawesome',
 
     'modelcluster',
     'taggit',
@@ -93,6 +95,8 @@ LOCAL_APPS = [
     # Your stuff: custom apps go here
     'bitxconvert.convert',
     'bitxconvert.news',
+    'bitxconvert.core',
+    'bitxconvert.utils',
 ]
 # https://docs.djangoproject.com/en/dev/ref/settings/#installed-apps
 INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS

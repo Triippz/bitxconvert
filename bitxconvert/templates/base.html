@@ -5,7 +5,8 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="x-ua-compatible" content="ie=edge">
-  <title>{% block title %}BitXConvert{% endblock title %}</title>
+  <title>{% block title %}{% if self.seo_title %}{{ self.seo_title }}{% else %}BitXConvert
+  {% endif %}{% endblock title %}</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="">
   <meta name="author" content="">
@@ -20,219 +21,228 @@
   {% block css %}
 
     <!-- This file stores project-specific CSS -->
-    <link href="{% static 'css/mdb.min.css' %}" rel="stylesheet">
-    <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
-    <link href="{% static 'css/style.min.css' %}" rel="stylesheet">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-
+    <link href="{% static 'css/mdb.css' %}" rel="stylesheet">
+    <link href="{% static 'css/bootstrap.css' %}" rel="stylesheet">
+    <link href="{% static 'css/style.css' %}" rel="stylesheet">
     <!-- Stepper CSS -->
+    {#    <link href="{% static 'css/addons-pro/stepper.css' %}" rel="stylesheet">#}
     <!-- Stepper CSS - minified-->
     <link href="{% static 'css/addons-pro/stepper.min.css' %}" rel="stylesheet">
 
   {% endblock %}
 
+  {% block facebook_og %}
+    {% include "utils/includes/facebook_opengraph.html" %}
+  {% endblock %}
+
+  {% block google_analytics %}
+    {% include "utils/includes/google_analytics.html" %}
+  {% endblock %}
+
 </head>
 
 <body>
-<div class="mb-1">
-  <nav class="navbar navbar-expand-xl navbar-dark bg-dark navbar-fixed-top sticky-top">
-    {#  <div class="container">#}
-    <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse"
-            data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
-            aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
+
+{#<div class="mb-1">#}
+<nav class="navbar navbar-expand-xl navbar-dark bg-dark navbar-fixed-top sticky-top">
+  {#  <div class="container">#}
+  <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse"
+          data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+          aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
 
 
-    <a class="navbar-brand navbar-brand-centered" href="{% url 'home' %}">
-      <img src="{% static 'images/logos/bxc.png' %}" height="60" width="125" alt="mxc logo">
-    </a>
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      <ul class="navbar-nav navbar-left">
-{#        <li class="nav-item active">#}
-{#          <a class="nav-link" href="{% url 'home' %}">Home <span class="sr-only">(current)</span></a>#}
-{#        </li>#}
+  <a class="navbar-brand navbar-brand-centered" href="/">
+    <img src="{% static 'images/logos/bxc.png' %}" height="60" width="125" alt="mxc logo">
+  </a>
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav navbar-left">
+      <li class="nav-item active">
+        <a class="nav-link" href="{% url 'convert:home' %}">Convert <span class="sr-only">(current)</span></a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/about">About</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/news">News</a>
+      </li>
+    </ul>
+
+    {% if request.user.is_authenticated %}
+      <ul class="navbar-nav ml-auto nav-flex-icons">
+        <li class="nav-item avatar dropdown">
+          <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink-55" data-toggle="dropdown"
+             aria-haspopup="true"
+             aria-expanded="false">
+            <img src="{% static 'images/default-user.png' %}" class="rounded-circle z-depth-0"
+                 alt="avatar image">
+          </a>
+          <div class="dropdown-menu dropdown-menu-right dropdown-secondary"
+               aria-labelledby="navbarDropdownMenuLink-55">
+            <a class="dropdown-item"
+               href="{% url 'users:detail' request.user.username %}">{% trans "My Profile" %}</a>
+            <a class="dropdown-item" href="{% url 'account_logout' %}">{% trans "Sign Out" %}</a>
+            {% if request.user.is_superuser %}
+              <a class="dropdown-item" href="/cms/">Wagtail Admin</a>
+              <a class="dropdown-item" href="/django-admin/">Django Admin</a>
+            {% endif %}
+          </div>
+        </li>
+      </ul>
+    {% else %}
+
+      <ul class="navbar-nav ml-auto nav-flex-icons">
         <li class="nav-item">
-          <a class="nav-link" href="{% url 'about' %}">About</a>
+          {# URL provided by django-allauth/account/urls.py #}
+          <a id="sign-up-link" class="nav-link" href="{% url 'account_signup' %}">{% trans "Sign Up" %}</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="/news">News</a>
+          {# URL provided by django-allauth/account/urls.py #}
+          <a id="log-in-link" class="nav-link" href="{% url 'account_login' %}">{% trans "Sign In" %}</a>
         </li>
       </ul>
 
-      {% if request.user.is_authenticated %}
-        <ul class="navbar-nav ml-auto nav-flex-icons">
-          <li class="nav-item avatar dropdown">
-            <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink-55" data-toggle="dropdown"
-               aria-haspopup="true"
-               aria-expanded="false">
-              <img src="https://mdbootstrap.com/img/Photos/Avatars/avatar-2.jpg" class="rounded-circle z-depth-0"
-                   alt="avatar image">
-            </a>
-            <div class="dropdown-menu dropdown-menu-right dropdown-secondary"
-                 aria-labelledby="navbarDropdownMenuLink-55">
-              <a class="dropdown-item"
-                 href="{% url 'users:detail' request.user.username %}">{% trans "My Profile" %}</a>
-              <a class="dropdown-item" href="{% url 'account_logout' %}">{% trans "Sign Out" %}</a>
-              <a class="dropdown-item" href="/cms">Wagtail Admin</a>
-            </div>
-          </li>
-        </ul>
-      {% else %}
-
-        <ul class="navbar-nav ml-auto nav-flex-icons">
-          <li class="nav-item">
-            {# URL provided by django-allauth/account/urls.py #}
-            <a id="sign-up-link" class="nav-link" href="{% url 'account_signup' %}">{% trans "Sign Up" %}</a>
-          </li>
-          <li class="nav-item">
-            {# URL provided by django-allauth/account/urls.py #}
-            <a id="log-in-link" class="nav-link" href="{% url 'account_login' %}">{% trans "Sign In" %}</a>
-          </li>
-        </ul>
-
-      {% endif %}
+    {% endif %}
 
 
-    </div>
-  </nav>
+  </div>
+</nav>
 
-</div>
+{#</div>#}
 
 {% wagtailuserbar %}
 {#<div id="wrap">#}
 {#  <div id="main" >#}
-    {% if messages %}
-      {% for message in messages %}
-        <div class="alert {% if message.tags %}alert-{{ message.tags }}{% endif %}">{{ message }}</div>
-      {% endfor %}
-    {% endif %}
-
-    {% block content %}
-    {% endblock content %}
+{% block content %}
+  {% if messages %}
+    {% for message in messages %}
+      <div class="alert {% if message.tags %}alert-{{ message.tags }}{% endif %}">{{ message }}</div>
+    {% endfor %}
+  {% endif %}
+{% endblock content %}
 {#</div>#}
 
 {#  </div> <!-- /container -->#}
 
-  <!-- Footer -->
-  <footer class="page-footer font-small stylish-color-dark pt-4">
+{% block modal %}{% endblock modal %}
 
-    <!-- Footer Links -->
-    <div class="container text-center text-md-left">
+<!-- Le javascript
+================================================== -->
+<!-- Placed at the end of the document so the pages load faster -->
+{% block javascript %}
 
-      <!-- Grid row -->
-      <div class="row">
+  <!-- Required by Bootstrap v4.1.1 -->
+  {#      <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>#}
+  {#      <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>#}
+  {#      <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js" integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T" crossorigin="anonymous"></script>#}
 
-        <!-- Grid column -->
-        <div class="col-md-4 mx-auto">
-
-          <!-- Content -->
-          <h5 class="font-weight-bold text-uppercase mt-3 mb-4">bitXconvert</h5>
+  <!-- Your stuff: Third-party javascript libraries go here -->
 
 
-        </div>
-        <!-- Grid column -->
+  <!-- place project specific Javascript in this file -->
+  <script src="{% static 'js/jquery-3.3.1.min.js' %}"></script>
+  <script src="{% static 'js/bootstrap.min.js' %}"></script>
+  <script src="{% static 'js/mdb.min.js' %}"></script>
+  <script src="{% static 'js/popper.min.js' %}"></script>
+  <script type="text/javascript" src="{% static 'js/addons-pro/stepper.min.js' %}"></script>
 
-        <hr class="clearfix w-100 d-md-none">
+{% endblock javascript %}
+</body>
+<!-- Footer -->
+<footer class="page-footer font-small stylish-color-dark pt-4">
 
-        <!-- Grid column -->
-        <div class="col-md-2 mx-auto">
+  <!-- Footer Links -->
+  <div class="container text-center text-md-left">
 
-          <!-- Links -->
-          <h5 class="font-weight-bold text-uppercase mt-3 mb-4"><a href="/news">News</a> </h5>
+    <!-- Grid row -->
+    <div class="row">
 
-        </div>
-        <!-- Grid column -->
+      <!-- Grid column -->
+      <div class="col-md-4 mx-auto">
 
-        <hr class="clearfix w-100 d-md-none">
+        <!-- Content -->
+        <h5 class="font-weight-bold text-uppercase mt-3 mb-4">bitXconvert</h5>
 
-        <!-- Grid column -->
-        <div class="col-md-2 mx-auto">
-
-          <!-- Links -->
-          <h5 class="font-weight-bold text-uppercase mt-3 mb-4">Helpful Links</h5>
-
-          <ul class="list-unstyled">
-            <li>
-              <a href="https://www.irs.gov/businesses/small-businesses-self-employed/virtual-currencies">IRS</a>
-            </li>
-            <li>
-              <a href="https://en.wikipedia.org/wiki/Cryptocurrency">What is Crypto?</a>
-            </li>
-            <li>
-              <a href="https://blog.taxact.com/bitcoin-tax-calculator/">Crypto Taxes?</a>
-            </li>
-          </ul>
-
-        </div>
-        <!-- Grid column -->
-
-        <hr class="clearfix w-100 d-md-none">
-
-        <!-- Grid column -->
-        <div class="col-md-2 mx-auto">
-
-          <!-- Links -->
-          <h5 class="font-weight-bold text-uppercase mt-3 mb-4">Our Site</h5>
-
-          <ul class="list-unstyled">
-            <li>
-              <a href="{% url 'about' %}">About</a>
-            </li>
-            <li>
-              <a href="#!">Contact</a>
-            </li>
-            <li>
-              <a href="#!">Privacy Policy</a>
-            </li>
-            <li>
-              <a href="#!">Terms of Service</a>
-            </li>
-          </ul>
-
-        </div>
-        <!-- Grid column -->
 
       </div>
-      <!-- Grid row -->
+      <!-- Grid column -->
+
+      <hr class="clearfix w-100 d-md-none">
+
+      <!-- Grid column -->
+      <div class="col-md-2 mx-auto">
+
+        <!-- Links -->
+        <h5 class="font-weight-bold text-uppercase mt-3 mb-4"><a href="/news">News</a></h5>
+
+      </div>
+      <!-- Grid column -->
+
+      <hr class="clearfix w-100 d-md-none">
+
+      <!-- Grid column -->
+      <div class="col-md-2 mx-auto">
+
+        <!-- Links -->
+        <h5 class="font-weight-bold text-uppercase mt-3 mb-4">Helpful Links</h5>
+
+        <ul class="list-unstyled">
+          <li>
+            <a href="https://www.irs.gov/businesses/small-businesses-self-employed/virtual-currencies">IRS</a>
+          </li>
+          <li>
+            <a href="https://en.wikipedia.org/wiki/Cryptocurrency">What is Crypto?</a>
+          </li>
+          <li>
+            <a href="https://blog.taxact.com/bitcoin-tax-calculator/">Crypto Taxes?</a>
+          </li>
+        </ul>
+
+      </div>
+      <!-- Grid column -->
+
+      <hr class="clearfix w-100 d-md-none">
+
+      <!-- Grid column -->
+      <div class="col-md-2 mx-auto">
+
+        <!-- Links -->
+        <h5 class="font-weight-bold text-uppercase mt-3 mb-4">Our Site</h5>
+
+        <ul class="list-unstyled">
+          <li>
+            <a href="/about">About</a>
+          </li>
+          <li>
+            <a href="#!">Contact</a>
+          </li>
+          <li>
+            <a href="/privacy_policy">Privacy Policy</a>
+          </li>
+          <li>
+            <a href="/terms">Terms of Service</a>
+          </li>
+        </ul>
+
+      </div>
+      <!-- Grid column -->
 
     </div>
-    <!-- Footer Links -->
+    <!-- Grid row -->
 
-    <hr>
+  </div>
+  <!-- Footer Links -->
 
-    <!-- Copyright -->
-    <div class="footer-copyright text-center py-3">© 2019 Copyright:
-      <a href="https://mdbootstrap.com/education/bootstrap/"> bitxconvert.com</a>
-    </div>
-    <!-- Copyright -->
+  <hr>
 
-  </footer>
-  <!-- Footer -->
+  <!-- Copyright -->
+  <div class="footer-copyright text-center py-3">© 2019 Copyright:
+    <a href="https://mdbootstrap.com/education/bootstrap/"> bitxconvert.com</a>
+  </div>
+  <!-- Copyright -->
 
-  {% block modal %}{% endblock modal %}
-
-  <!-- Le javascript
-  ================================================== -->
-  <!-- Placed at the end of the document so the pages load faster -->
-  {% block javascript %}
-
-    <!-- Required by Bootstrap v4.1.1 -->
-    {#      <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>#}
-    {#      <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>#}
-    {#      <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js" integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T" crossorigin="anonymous"></script>#}
-
-    <!-- Your stuff: Third-party javascript libraries go here -->
-
-
-    <!-- place project specific Javascript in this file -->
-    <script src="{% static 'js/jquery-3.3.1.min.js' %}"></script>
-    <script src="{% static 'js/bootstrap.min.js' %}"></script>
-    <script src="{% static 'js/mdb.min.js' %}"></script>
-    <script src="{% static 'js/popper.min.js' %}"></script>
-    <script type="text/javascript" src="{% static 'js/addons-pro/stepper.min.js' %}"></script>
-
-  {% endblock javascript %}
-</body>
+</footer>
+<!-- Footer -->
 </html>
 

@@ -13,14 +13,14 @@ from bitxconvert.convert import urls as convert_urls
 
 
 urlpatterns = [
-    path("", TemplateView.as_view(template_name="pages/home.html"), name="home"),
-    path(
-        "about/",
-        TemplateView.as_view(template_name="pages/about.html"),
-        name="about",
-    ),
+    # path("", TemplateView.as_view(template_name="pages/home.html"), name="home"),
+    # path(
+    #     "about/",
+    #     TemplateView.as_view(template_name="core/about_page.html"),
+    #     name="about",
+    # ),
     # Django Admin, use {% url 'admin:index' %}
-    path(r'django-admin/', (admin.site.urls)),
+    path(r'django-admin/', admin.site.urls, name="djangoadmin"),
     # User management
     path( "users/", include("bitxconvert.users.urls", namespace="users"),),
     path("accounts/", include("allauth.urls")),
@@ -29,9 +29,10 @@ urlpatterns = [
     path("convert/", include(convert_urls, namespace="convert"),),
 
     # WAGTAIL URLS
-    re_path(r'^cms/', include(wagtailadmin_urls)),
+    re_path(r'^cms/', include(wagtailadmin_urls), name="wagadmin"),
     re_path(r'^documents/', include(wagtaildocs_urls)),
-    re_path(r'^news/', include(wagtail_urls)),
+    re_path(r"", include(wagtail_urls), name="home"),
+    # re_path(r'^page/', include(wagtail_urls)),
 
 ] + static(
     settings.MEDIA_URL, document_root=settings.MEDIA_ROOT

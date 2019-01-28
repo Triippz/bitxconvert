@@ -15,9 +15,11 @@ from wagtail.snippets.models import register_snippet
 
 
 class HomePage(Page):
-    body = RichTextField(blank=True)
+    title_text = models.CharField(blank=False, max_length=100)
+    body = RichTextField(blank=False)
 
     content_panels = Page.content_panels + [
+        FieldPanel('title_text', classname='title'),
         FieldPanel('body', classname="full"),
     ]
 
@@ -122,3 +124,4 @@ class NewsCategory(models.Model):
 
     class Meta:
         verbose_name_plural = 'news categories'
+

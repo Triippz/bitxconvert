@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% load wagtailcore_tags wagtailimages_tags static %}
+
+{% block body_class %}template-privacy_policy{% endblock %}
+
+
+{% block content %}
+
+
+  <div class="container">
+    <p class="h1">
+      {{ page.title }}
+    </p>
+    <p class="">
+      Posted: {{ page.date }}
+    </p>
+    {% if page.revised_date %}
+      <p class="">
+      Revised: {{ page.revised_date }}
+      </p>
+    {% endif %}
+
+    <p>{{ page.body|richtext }}</p>
+  </div>
+
+
+{% endblock %}

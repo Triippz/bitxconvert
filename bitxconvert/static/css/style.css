@@ -1,49 +1,16 @@
-* {
-  margin: 0;
-  padding: 0;
-}
-
-html,
 body {
-  height: 100%;
+  margin:0;
+  padding:0;
+  display:flex;
+  flex-direction:column;
+  justify-content:space-between;
+  min-height:100vh;
 }
 
-#wrap {
-  min-height: 100%;
+main {
+  flex:1 0 auto;
 }
 
-#main {
-  overflow: auto;
-  padding-bottom: 180px;
-  /* must be same height as the footer */
+.footer {
+  background:crimson;
 }
-
-#footer {
-  position: relative;
-  margin-top: -180px;
-  /* negative value of footer height */
-  height: 180px;
-  clear: both;
-  background-color: red;
-}
-
-
-/* Opera Fix thanks to Maleika (Kohoutec) */
-
-body:before {
-  content: "";
-  height: 100%;
-  float: left;
-  width: 0;
-  margin-top: -32767px;
-  /* thank you Erik J - negate effect of float*/
-}
-
-.navbar-brand-centered {
-    position: absolute;
-    left: 50%;
-    display: block;
-    width: 160px;
-    text-align: center;
-}
-

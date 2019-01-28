@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% load wagtailcore_tags wagtailimages_tags static %}
+
+{% block body_class %}template-aboutpage{% endblock %}
+
+{% block content %}
+
+  <section class="team-section my-5">
+
+    <!-- Section heading -->
+    <h2 class="h1-responsive font-weight-bold text-center">{{ page.intro }}</h2>
+    <!-- Section description -->
+
+    <div class="d-flex justify-content-center align-items-center">
+      <div class="container text-center">
+        <p class="grey-text text-center w-responsive mx-auto mb-5">
+          {{ page.intro_title|richtext }}
+        </p>
+
+        <p class="text-center w-responsive mx-auto mb-5">
+          {{ page.body|richtext }}
+        </p>
+      </div>
+    </div>
+
+  </section>
+
+{% endblock %}
