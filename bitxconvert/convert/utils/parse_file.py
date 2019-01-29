@@ -1,8 +1,13 @@
 from django.conf import settings
 
 from bitxconvert.convert.utils.exchanges.binance import get_binance_version
+from bitxconvert.convert.utils.exchanges.bittrex import get_bittrex_version
+from bitxconvert.convert.utils.exchanges.coinbase import get_coinbase_version
+from bitxconvert.convert.utils.services.bitcointax import get_bitcointax_version
 from bitxconvert.convert.utils.services.cointracker import get_cointracker_version
 from bitxconvert.convert.models import Conversion
+from bitxconvert.convert.utils.services.cryptotrader import get_cryptotrader_version
+from bitxconvert.convert.utils.services.manual import get_manual_version
 from bitxconvert.users.models import User
 
 
@@ -48,20 +53,20 @@ def parse_files(exchange_in, service_in, files, user=None):
 
     # Let's parse the file(s) into a new file based off the exchange
     if exchange == "BITTREX":
-        file_info = ""
+        file_info = get_bittrex_version(files)
     elif exchange == "BINANCE":
         file_info = get_binance_version(files)
     elif exchange == "COINBASE":
-        file_info = ""
+        file_info = get_coinbase_version(files)
 
     # Now let's modify that new file into the format needed by the service chosen
     final_file_results = ""
     if service == "MANUAL":
-        final_file_results = ""
+        final_file_results = get_manual_version(file_info, exchange)
     elif service == "CRYPTOTRADER":
-        final_file_results = ""
+        final_file_results = get_cryptotrader_version(file_info, exchange)
     elif service == "BITCOINTAX":
-        final_file_results = ""
+        final_file_results = get_bitcointax_version(file_info, exchange)
     elif service == "COINTRACKER":
         final_file_results = get_cointracker_version(file_info)
 

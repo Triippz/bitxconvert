@@ -1,7 +1,10 @@
+import inspect
+
 import xlrd
 import xlsxwriter
-
+import datetime
 from bitxconvert.convert.tools import create_tmp_file
+from bitxconvert.utils.exceptions import IncorrectExchangeException
 
 COL_LETTERS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
 new_row = 1
@@ -20,7 +23,12 @@ def get_binance_version(files):
     # Start writing from old file
     for file in files:
         # Open file in memory
-        wb = xlrd.open_workbook(file_contents=file.read())
+        try:
+            wb = xlrd.open_workbook(file_contents=file.read())
+        except Exception as e:
+            print("{} -- Error: {}-->{}".format(datetime.datetime.now(), inspect.stack()[0][3], e))
+            raise IncorrectExchangeException("You attempted to upload a file which is not supported for the current "
+                                             "exchange. If you think this is a mistake, please contact us.")
         sheet = wb.sheet_by_index(0)
 
         write_col_names(new_sheet, bold)

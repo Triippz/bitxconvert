@@ -3,9 +3,9 @@
 
 
 {% block content %}
-{#  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">#}
+  {#  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">#}
 
-  <div class="container">
+  <div class="container my-5" style="background-color: #f5f5f5">
     <div class="row" style="background-color: #1a6398">
       <div class="col">
         <p class="h1 text-center text-white">Your file is ready!</p>
@@ -13,6 +13,10 @@
         <p class="text-center text-white">
           Want to view this and other files for later?
           <a href="#">Sign Up!</a>
+        </p>
+        <p class="text-center text-white">
+          If you are pleased with this service, want us to add more features, or just want to show your support?
+          Please consider writing us with suggestions, and <a class="text-black" href="">Send Us a Donation</a>
         </p>
       </div>
     </div>
@@ -56,6 +60,33 @@
         </a>
       </div>
     </div>
+
+    {% if service == "CRYPTOTRADER" %}
+      {% include 'convert/info/cryptotrader.html' %}
+    {% else %}
+      {% include 'convert/info/manual.html' %}
+    {% endif %}
+
+    {% if exchange == "BITTREX" %}
+      {% include 'convert/info/bittrex.html' %}
+    {% endif %}
+
+
+    <hr class="my-5">
+    <div class="row">
+      <p class="text-center">
+        <strong class="text-danger">
+          Dislaimer:
+        </strong>
+        We try to provide a truly accurate conversion. Some exchanges provide your transaction data in a complicated
+        format. We advise you to double check the files we provide you to ensure your transactions are correct.
+        If you notice any issues, please provide us with these issues so we can enhance our platform.
+
+        We maintain a free service for you and we are not liable for any errors or mistakes which come from our files.
+      </p>
+    </div>
+  </div>
+
   </div>
 
 

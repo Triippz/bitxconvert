@@ -1,7 +1,8 @@
+import inspect
 import os
+import datetime
 
-from django.http import HttpResponse, Http404, FileResponse, HttpResponseRedirect
-from django.shortcuts import render
+from django.http import Http404, FileResponse, HttpResponseRedirect
 from django.template.response import TemplateResponse
 from django.conf import settings
 from django.urls import reverse
@@ -9,17 +10,32 @@ from django.urls import reverse
 from bitxconvert.convert.forms import ConvertFilesForm
 from bitxconvert.convert.utils.parse_file import parse_files
 from bitxconvert.convert.utils.validation import validate_convert
+from bitxconvert.utils.exceptions import IncorrectFileFormat, IncorrectExchangeException, EmptyExchangeField, \
+    EmptyServiceField
 
 
 def home_view(request):
     if request.method == 'POST':
-        is_valid = validate_convert(request.POST, request.FILES)
-        if is_valid[0]:
+        try:
+            validate_convert(request.POST, request.FILES)
+
             exchange = request.POST['exchange']
             service = request.POST['convert']
             files = request.FILES.getlist('file_field')
-            file_info = parse_files(exchange, service, files, request.user)
-
+            try:
+                file_info = parse_files(exchange, service, files, request.user)
+            except IncorrectFileFormat as e:
+                print("{} -- Error: {}-->{}".format(datetime.datetime.now(), inspect.stack()[0][3], e))
+                form = ConvertFilesForm()
+                return TemplateResponse(
+                    request, "convert/home.html", {'form': form, 'error': e}
+                )
+            except IncorrectExchangeException as e:
+                print("{} -- Error: {}-->{}".format(datetime.datetime.now(), inspect.stack()[0][3], e))
+                form = ConvertFilesForm()
+                return TemplateResponse(
+                    request, "convert/home.html", {'form': form, 'error': e}
+                )
             ctx = {
                 "processed": file_info['conversion'].trades_processed,
                 "exchange": file_info['conversion'].exchange,
@@ -29,16 +45,18 @@ def home_view(request):
                 "file_name": file_info['results']['file_name'],
                 "conversion_id": file_info['conversion'].id
             }
-            # return TemplateResponse (
-            #     request, template="convert/success.html", context=ctx
-            # )
             request.session['download_ctx'] = ctx
             return HttpResponseRedirect(reverse('convert:success'))
-
-        form = ConvertFilesForm()
-        return TemplateResponse(
-            request, "convert/home.html", {'form': form, 'error': is_valid[1]}
-        )
+        except EmptyExchangeField as e:
+            form = ConvertFilesForm()
+            return TemplateResponse(
+                request, "convert/home.html", {'form': form, 'error': e}
+            )
+        except EmptyServiceField as e:
+            form = ConvertFilesForm()
+            return TemplateResponse(
+                request, "convert/home.html", {'form': form, 'error': e}
+            )
 
     form = ConvertFilesForm()
     return TemplateResponse(

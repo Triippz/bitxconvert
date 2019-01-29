@@ -26,9 +26,9 @@ def write_csv(sheet, file_info):
     sell_orders = 0
     total_orders = 0
 
-    with open(file_info['file_path'], 'w') as csvfile:
-        filewriter = csv.writer(csvfile, delimiter=',',
-                                quotechar='|', quoting=csv.QUOTE_MINIMAL)
+    csv.register_dialect("dialect", delimiter=',', quoting=csv.QUOTE_NONE)
+    with open(file_info['file_path'], 'w', encoding="utf-8") as csvfile:
+        filewriter = csv.writer(csvfile, dialect="dialect")
         filewriter.writerow(['Date', 'Received Quantity', 'Currency', 'Sent Quantity', 'Currency'])
 
         # with open(file_info['file_path'], 'wb') as csvfile:
