@@ -24,7 +24,8 @@ def create_record(exchange, service, files, final_file_results, user=None):
             number_of_files=len(files),
             exchange=exchange,
             tax_service=service,
-            trades_processed=final_file_results['total_orders']
+            trades_processed=final_file_results['total_orders'],
+            file_name=final_file_results['file_name']
         )
         return conversion
     else:
@@ -33,7 +34,8 @@ def create_record(exchange, service, files, final_file_results, user=None):
             exchange=exchange,
             tax_service=service,
             trades_processed=final_file_results['total_orders'],
-            user=User.objects.get(pk=user.id)
+            user=User.objects.get(pk=user.id),
+            file_name=final_file_results['file_name']
         )
         return conversion
 

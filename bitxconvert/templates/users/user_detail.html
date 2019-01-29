@@ -1,36 +1,95 @@
 {% extends "base.html" %}
-{% load static %}
+{% load static conversions fontawesome %}
 
 {% block title %}User: {{ object.username }}{% endblock %}
 
 {% block content %}
-<div class="container">
+  <div class="container">
 
-  <div class="row">
-    <div class="col-sm-12">
+    <div class="row">
+      <div class="col">
 
-      <h2>{{ object.username }}</h2>
-      {% if object.name %}
-        <p>{{ object.name }}</p>
-      {% endif %}
+        <!-- Card -->
+        <div class="card testimonial-card">
+
+          <!-- Background color -->
+          <div class="card-up indigo lighten-1"></div>
+
+          <!-- Avatar -->
+          <div class="avatar mx-auto white">
+            <img src="{% static 'images/default-user.png' %}" class="rounded-circle"
+                 alt="user avatar">
+          </div>
+
+          <!-- Content -->
+          <div class="card-body">
+            <!-- Name -->
+            <h4 class="card-title">{{ object.username }}</h4>
+            {% if object.name %}
+              <p>{{ object.name }}</p>
+            {% endif %}
+            <hr>
+            <!-- Quotation -->
+            {% if object == request.user %}
+              <a class="btn btn-primary btn-md waves-effect waves-light" href="{% url 'users:update' %}" role="button">My
+                Info</a>
+              <a class="btn btn-primary btn-md waves-effect waves-light" href="{% url 'account_email' %}" role="button">E-Mail</a>
+              <a class="btn btn-primary btn-md waves-effect waves-light" href="{% url 'account_change_password' %}" role="button">Change Password</a>
+            {% endif %}
+          </div>
+        </div>
+        <!-- Card -->
+      </div>
     </div>
+    {% get_user_conversions object as conversions %}
+    <div class="row">
+      <div class="col">
+        <div class="card mb-4 my-5">
+          <h4 class="card-title text-center">
+            Past Conversions
+          </h4>
+          {% if conversions %}
+            <div class="table-responsive-sm">
+            <table class="table table-striped">
+              <thead>
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">Date</th>
+                <th scope="col">Exchange</th>
+                <th scope="col">Service</th>
+                <th scope="col">Processed TX's</th>
+                <th scope="col">Download</th>
+              </tr>
+              </thead>
+              <tbody>
+              {% for conversion in conversions %}
+                <tr>
+                  <th scope="row">{{ forloop.counter }}</th>
+                  <td>{{ conversion.created_at }}</td>
+                  <td>{{ conversion.exchange }}</td>
+                  <td>{{ conversion.tax_service }}</td>
+                  <td>{{ conversion.trades_processed }}</td>
+                  {% if object == request.user %}
+                    <td>
+                      <a class="btn btn-md blue-gradient" href="{% url 'convert:download' file=conversion.file_name %}">
+                        <i>{% fontawesome_icon 'file-download' large=True %}</i>
+                        Download Now
+                      </a>
+                    </td>
+                  {% endif %}
+                </tr>
+              {% endfor %}
+              </tbody>
+            </table>
+            </div>
+          {% else %}
+            <h4 class="text-center">You have no conversions</h4>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+
+
   </div>
-
-{% if object == request.user %}
-<!-- Action buttons -->
-<div class="row">
-
-  <div class="col-sm-12">
-    <a class="btn btn-primary" href="{% url 'users:update' %}" role="button">My Info</a>
-    <a class="btn btn-primary" href="{% url 'account_email' %}" role="button">E-Mail</a>
-    <!-- Your Stuff: Custom user template urls -->
-  </div>
-
-</div>
-<!-- End Action buttons -->
-{% endif %}
-
-
-</div>
 {% endblock content %}
 

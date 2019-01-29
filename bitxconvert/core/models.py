@@ -2,12 +2,19 @@ from django.db import models
 from django import forms
 
 # Create your models here.
-from wagtail.admin.edit_handlers import MultiFieldPanel, FieldPanel, InlinePanel
+from modelcluster.fields import ParentalKey
+from modelcluster.models import ClusterableModel
+from wagtail.admin.edit_handlers import MultiFieldPanel, FieldPanel, InlinePanel, FieldRowPanel
+from wagtail.contrib.forms.models import AbstractEmailForm, AbstractFormField
 from wagtail.contrib.settings.models import BaseSetting
 from wagtail.contrib.settings.registry import register_setting
 from wagtail.core.fields import RichTextField
-from wagtail.core.models import Page
+from wagtail.core.models import Page, Orderable
+from wagtail.images.edit_handlers import ImageChooserPanel
 from wagtail.search import index
+from wagtail.snippets.models import register_snippet
+
+from bitxconvert.utils.models import ContactFields
 
 
 @register_setting
@@ -122,3 +129,40 @@ class PrivacyPolicy(Page):
     promote_panels = [
         MultiFieldPanel(Page.promote_panels, "Common page configuration"),
     ]
+
+
+class FormField(AbstractFormField):
+    page = ParentalKey('FormPage', related_name='custom_form_fields')
+
+
+class FormPage(AbstractEmailForm):
+    thank_you_text = RichTextField(blank=True)
+
+    content_panels = AbstractEmailForm.content_panels + [
+        InlinePanel('custom_form_fields', label="Form fields"),
+        FieldPanel('thank_you_text', classname="full"),
+        MultiFieldPanel([
+            FieldRowPanel([
+                FieldPanel('from_address', classname="col6"),
+                FieldPanel('to_address', classname="col6"),
+            ]),
+            FieldPanel('subject'),
+        ], "Email Notification Config"),
+    ]
+
+    def get_form_fields(self):
+        return self.custom_form_fields.all()
+
+
+@register_snippet
+class ExternalFooterLinks(models.Model):
+    url = models.URLField(null=True, blank=True)
+    name = models.CharField(max_length=255)
+
+    panels = [
+        FieldPanel('url'),
+        FieldPanel('name'),
+    ]
+
+    def __str__(self):
+        return self.name

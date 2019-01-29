@@ -14,3 +14,9 @@ main {
 .footer {
   background:crimson;
 }
+
+#thank-you {
+  -vendor-animation-duration: 5s;
+  -vendor-animation-delay: 5s;
+  -vendor-animation-iteration-count: infinite;
+}

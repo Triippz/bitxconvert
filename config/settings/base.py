@@ -76,9 +76,14 @@ DJANGO_APPS = [
     'wagtail.core',
     'wagtail.contrib.settings',
     'wagtailfontawesome',
+    'wagtail.contrib.modeladmin',
 
     'modelcluster',
     'taggit',
+    'foundation_formtags',
+    'widget_tweaks',
+    'el_pagination',
+    'wagtailmenus',
 ]
 THIRD_PARTY_APPS = [
     'crispy_forms',
@@ -89,6 +94,7 @@ THIRD_PARTY_APPS = [
     'fontawesome',
     'xlrd',
     'xlsxwriter',
+    'cookielaw',
 ]
 LOCAL_APPS = [
     'bitxconvert.users.apps.UsersAppConfig',
@@ -218,6 +224,7 @@ TEMPLATES = [
                 'django.template.context_processors.tz',
                 'django.contrib.messages.context_processors.messages',
                 'wagtail.contrib.settings.context_processors.settings',
+                'wagtailmenus.context_processors.wagtailmenus',
             ],
         },
     },

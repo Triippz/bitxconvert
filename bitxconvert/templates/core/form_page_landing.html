@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+{% load static wagtailcore_tags  wagtailimages_tags el_pagination_tags menu_tags %}
+
+{% block content %}
+
+<div class="container">
+  <div id="header2" class="h2 text-center">{{ page.thank_you_text | richtext }}</div>
+  <div class="text-center">
+    <img class="animated zoomOutRight lightSpeedOut delay-2s" src="{% static 'images/paper-plane.png' %}" alt="plane" >
+  </div>
+</div>
+
+{% endblock %}

@@ -10,3 +10,4 @@ class Conversion(models.Model):
     tax_service = models.CharField(max_length=100, blank=False, choices=settings.CONVERT_SUPPORTED_SERVICES)
     trades_processed = models.IntegerField(blank=False, default=0)
     user = models.ForeignKey(settings.AUTH_USER_MODEL, blank=True, null=True, on_delete=models.CASCADE)
+    file_name = models.CharField(max_length=255, blank=False)

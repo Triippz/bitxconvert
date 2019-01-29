@@ -24,6 +24,11 @@ wagtail==2.4
 wagtailfontawesome==1.1.3
 wagtail-markdown==0.5
 wagalytics==0.8.1
+django-foundation-formtags==0.1.0
+django-widget-tweaks==1.4.3
+django-el-pagination==3.2.4
+wagtailmenus==2.12
+django-cookie-law==2.0.1
 
 # Excel Reading/Writing
 xlrd==1.2.0
