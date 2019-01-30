@@ -15,9 +15,12 @@ RUN addgroup -S django \
     && adduser -S -G django django
 
 # Requirements are installed here to ensure they will be cached.
+# https://github.com/pypa/pip/issues/6158   current issue with PIP
 COPY ./requirements /requirements
-RUN pip install --no-cache-dir -r /requirements/production.txt \
-    && rm -rf /requirements
+#RUN pip install --no-cache-dir -r /requirements/production.txt \
+#    && rm -rf /requirements
+RUN pip3 install --no-cache-dir --cache-dir=/pipcache -r /requirements/production.txt \
+    && rm -rf /pipcache && rm -rf /requirements
 
 COPY ./compose/production/django/entrypoint /entrypoint
 RUN sed -i 's/\r//' /entrypoint

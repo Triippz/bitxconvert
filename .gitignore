@@ -323,7 +323,8 @@ tags
 
 bitxconvert/media/
 
-tmp/
+tmp/*
+!tmp/.gitkeep
 
 .pytest_cache/
 

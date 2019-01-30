@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% load static conversions fontawesome %}
+{% load static conversions fontawesome wagtailadmin_tags %}
 
 {% block title %}User: {{ object.username }}{% endblock %}
 
@@ -18,8 +18,8 @@
 
           <!-- Avatar -->
           <div class="avatar mx-auto white">
-            <img src="{% static 'images/default-user.png' %}" class="rounded-circle"
-                 alt="user avatar">
+            <img src="{% avatar_url request.user %}"
+              alt="{% static 'images/default-user.png' %}" class="rounded-circle">
           </div>
 
           <!-- Content -->

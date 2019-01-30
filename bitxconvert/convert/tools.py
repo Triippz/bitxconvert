@@ -17,6 +17,7 @@ def create_tmp_file():
     file_path = "{}/{}.xlsx".format(settings.TMP_FILE_LOC, tmp_file_name)
     workbook = xlsxwriter.Workbook(file_path)
     workbook.close()
+
     return {
         "file": tmp_file_name,
         "file_path": file_path
