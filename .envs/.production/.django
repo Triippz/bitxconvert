@@ -1,0 +1,42 @@
+# General
+# ------------------------------------------------------------------------------
+# DJANGO_READ_DOT_ENV_FILE=True
+DJANGO_SETTINGS_MODULE=config.settings.production
+DJANGO_SECRET_KEY=SywWrSKCb6ZQIjMcu9jF946Mj4INqjs4hfFmu8JEBLlA9rLjxcLIAQGMNNwjBho2
+DJANGO_ADMIN_URL=LPQpeZhH2fx2TIMe237LnvBH7Dr9XGg4/
+DJANGO_ALLOWED_HOSTS=.bitxconvert.com
+
+# Security
+# ------------------------------------------------------------------------------
+# TIP: better off using DNS, however, redirect is OK too
+DJANGO_SECURE_SSL_REDIRECT=False
+
+# Email
+# ------------------------------------------------------------------------------
+MAILGUN_API_KEY=9a7585457aa029711763cb7fca3a485c-060550c6-56552573
+DJANGO_SERVER_EMAIL=mark.tripoli@trievosoftware.com
+MAILGUN_DOMAIN=mg.bitxconvert.com
+
+# AWS
+# ------------------------------------------------------------------------------
+DJANGO_AWS_ACCESS_KEY_ID=AKIAJ4JB7KQUHVJHRMHA
+DJANGO_AWS_SECRET_ACCESS_KEY=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
+DJANGO_AWS_STORAGE_BUCKET_NAME=bitxconvert
+
+# django-allauth
+# ------------------------------------------------------------------------------
+DJANGO_ACCOUNT_ALLOW_REGISTRATION=True
+
+# Gunicorn
+# ------------------------------------------------------------------------------
+WEB_CONCURRENCY=4
+
+# Sentry
+# ------------------------------------------------------------------------------
+SENTRY_DSN=
+
+
+# Redis
+# ------------------------------------------------------------------------------
+REDIS_URL=redis://redis:6379/0
+
