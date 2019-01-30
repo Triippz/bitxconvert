@@ -7,65 +7,124 @@
 {% block content %}
 
   <div class="container">
-    <div class="intro">{{ page.intro|richtext }}</div>
+    {#    <div class="intro">{{ page.intro|richtext }}</div>#}
 
-    <section class="my-5">
+    <!--Section: Live preview-->
+    <section id="v-1">
 
-      <!-- Section heading -->
-      <h2 class="h1-responsive font-weight-bold text-center my-5">{{ page.title }}</h2>
-      <!-- Section description -->
-      <p class="text-center dark-grey-text w-responsive mx-auto mb-5">{{ page.intro|richtext }}</p>
+      <!-- Section: Magazine v.1 -->
+      <section class="magazine-section my-5">
 
-      <!-- START ARTICLE -->
-      {% for post in newspages %}
-        {% with post=post.specific %}
-          <div class="row">
+        <!-- Section heading -->
+        <h2 class="h1-responsive font-weight-bold text-center my-5">{{ page.title }}</h2>
+        <!-- Section description -->
+        <hr class="my-5">
+        <!-- Grid row -->
+        <div class="row">
 
-            <!-- Grid column -->
-            <div class="col-lg-5 col-xl-4">
+          <!-- Grid column -->
+          <div class=".col-12 .col-md-8">
+            {% for post in newspages %}
+              {% with post=post.specific %}
+                {% if forloop.first %}
+                  <!-- Featured news -->
+                  <div class="single-news mb-4">
 
-              <!-- Featured image -->
-              {% with post.main_image as main_image %}
-                {% if main_image %}
-                  <div class="view overlay rounded z-depth-1-half mb-lg-0 mb-4">
-                    {% image main_image fill-400x100 as tmp_img %}
-                    <img href="{% pageurl post %}" class="img-fluid" src="{{ tmp_img.url }}" alt="Article Image">
-                    <a>
-                      <div class="mask rgba-white-slight"></div>
+                    <!-- Image -->
+                    <!-- Featured image -->
+                    {% with post.main_image as main_image %}
+                      {% if main_image %}
+                        <div class="view overlay rounded d-flex justify-content-center mb-4">
+                          {% image main_image fill-900x400 as tmp_img %}
+                          <img href="{% pageurl post %}" class="img-fluid" src="{{ tmp_img.url }}" alt="Article Image">
+                          <a>
+                            <div class="mask rgba-white-slight"></div>
+                          </a>
+                        </div>
+                      {% endif %}
+                    {% endwith %}
+
+                    <!-- Data -->
+                    <div class="news-data d-flex justify-content-between">
+                      {#                <a href="{% pageurl post %}" class="light-blue-text">#}
+                      <h6 class="deep-orange-text font-weight-bold"><i class="fas fa-plane pr-2"></i>{{ post.author }}
+                      </h6>
+                      {#                </a>#}
+                      <p class="font-weight-bold dark-grey-text"><i class="fas fa-clock-o pr-2"></i>{{ post.date }}</p>
+                    </div>
+
+                    <!-- Excerpt -->
+                    <a href="{% pageurl post %}" class="h3 font-weight-bold mb-3 light-blue-text">
+                      {{ post.title }}
                     </a>
+                    <p class="dark-grey-text">
+                      {{ post.intro }}
+                      .</p>
+
                   </div>
+                  <!-- Featured news -->
+                {% else %}
+                  <!-- Small news -->
+                  <div class="single-news mb-4">
+
+                    <!-- Grid row -->
+                    <div class="row">
+
+                      <!-- Grid column -->
+                      <div class="col-md-3">
+
+                        <!--Image-->
+                        {% with post.main_image as main_image %}
+                          {% if main_image %}
+                            <div class="view overlay rounded z-depth-1 mb-4">
+                              {% image main_image fill-900x400 as tmp_img %}
+                              <img href="{% pageurl post %}" class="img-fluid" src="{{ tmp_img.url }}"
+                                   alt="Article Image">
+                              <a>
+                                <div class="mask rgba-white-slight"></div>
+                              </a>
+                            </div>
+                          {% endif %}
+                        {% endwith %}
+                      </div>
+                      <!-- Grid column -->
+
+                      <!-- Grid column -->
+                      <div class="col-md-9">
+
+                        <!-- Excerpt -->
+                        <a href="{% pageurl post %}" class="h5">{{ post.title }}</a>
+                        <p class="font-weight-bold dark-grey-text">{{ post.date }}</p>
+                        <div class="d-flex justify-content-between">
+                          <div class="col-11 text-truncate pl-0 mb-3 dark-grey-text">
+                            {{ post.intro }}
+                          </div>
+                          <a><i class="fas fa-angle-double-right"></i></a>
+                        </div>
+                        {% for tag in post.tags.all %}
+                          <a href="{% slugurl 'tags' %}?tag={{ tag }}" class="badge badge-pill badge-light">{{ tag }}</a>
+                        {% endfor %}
+
+                      </div>
+                      <!-- Grid column -->
+
+                    </div>
+                    <!-- Grid row -->
+
+                  </div>
+                  <!-- Small news -->
                 {% endif %}
               {% endwith %}
-
-            </div>
-            <!-- Grid column -->
-
-            <!-- Grid column -->
-            <div class="col-lg-7 col-xl-8">
-
-              <!-- Post title -->
-              <h3 href="{% pageurl post %}" class="font-weight-bold mb-3"><strong>{{ post.title }}</strong></h3>
-              <!-- Excerpt -->
-              <p class="dark-grey-text">{{ post.intro }}</p>
-              <!-- Post data -->
-              <p>by <a class="font-weight-bold">{{ post.author }}</a>, {{ post.date }}</p>
-              <!-- Read more button -->
-              <a href="{% pageurl post %}" class="btn btn-primary btn-md">Read</a>
-
-            </div>
-            <!-- Grid column -->
-
+            {% endfor %}
           </div>
-        {% endwith %}
-      {% endfor %}
-      <!-- END ARTICLE -->
+          <!-- Grid column -->
+        </div>
+        <!-- Grid row -->
 
-      <hr class="my-5">
-
-  <!-- Grid row -->
-
-  </section>
-  <!-- Section: Blog v.3 -->
+      </section>
+      <!-- Section: Magazine v.1 -->
+    </section>
   </div>
+
 
 {% endblock %}

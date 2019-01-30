@@ -49,7 +49,6 @@ def convert_rows(sheet, new_sheet, float_format):
     header_hit = False
 
     for row in range(0, sheet.nrows):
-        print(header_hit)
         if header_hit:
             if sheet.cell_value(row, 1) == "Sell":
                 values = {
@@ -62,7 +61,6 @@ def convert_rows(sheet, new_sheet, float_format):
                     'price': sheet.cell_value(row, 4),
                     'fee_coin': "USD"
                 }
-                print(values)
                 sell_orders = sell_orders + 1
                 write_rows(new_sheet, values, float_format)
             if sheet.cell_value(row, 1) == "Buy":
@@ -76,7 +74,6 @@ def convert_rows(sheet, new_sheet, float_format):
                     'price': sheet.cell_value(row, 4),
                     'fee_coin': "USD"
                 }
-                print(values)
                 buy_orders = buy_orders + 1
                 write_rows(new_sheet, values, float_format)
         else:

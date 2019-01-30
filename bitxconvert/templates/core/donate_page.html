@@ -1,0 +1,160 @@
+{% extends "base.html" %}
+
+{% load wagtailcore_tags wagtailimages_tags static %}
+
+{% block body_class %}template-aboutpage{% endblock %}
+
+
+{% block content %}
+  <link href="{% static 'css/cointipper.css' %}" rel="stylesheet">
+
+  <div class="container">
+    <!-- Section: Features v.3 -->
+    <section class="my-5">
+
+      <!-- Section heading -->
+      <h2 class="h1-responsive font-weight-bold text-center my-5">{{ page.intro_title }}</h2>
+      <!-- Section description -->
+      <p class="lead grey-text text-center w-responsive mx-auto mb-5">
+        {{ page.intro | richtext }}
+      </p>
+
+      <!-- Grid row -->
+      <div class="row">
+
+        <!-- Grid column -->
+        <div class="col-lg-5 text-center text-lg-left">
+          <img class="img-fluid" src="{% static 'images/logos/bxc.png' %}" alt="Sample image">
+        </div>
+        <!-- Grid column -->
+
+        <!-- Grid column -->
+        <div class="col-lg-7">
+
+          <!-- Grid row -->
+          <div class="row mb-3">
+
+            <!-- Grid column -->
+            <div class="col-1">
+              <i class="far fa-handshake fa-lg indigo-text"></i>
+            </div>
+            <!-- Grid column -->
+
+            <!-- Grid column -->
+            <div class="col-xl-10 col-md-11 col-10">
+              <h5 class="font-weight-bold mb-3">Free to Use</h5>
+              <p class="grey-text">
+                This site's operation and development operates solely on donations. All features
+                are free to use, no strings attached.
+              </p>
+            </div>
+
+
+            <!-- Grid column -->
+
+          </div>
+          <!-- Grid row -->
+
+          <!-- Grid row -->
+          <div class="row mb-3">
+
+            <!-- Grid column -->
+            <div class="col-1">
+              <i class="fab fa-bitcoin fa-lg indigo-text"></i>
+            </div>
+            <!-- Grid column -->
+
+            <!-- Grid column -->
+            <div class="col-xl-10 col-md-11 col-10">
+              <h5 class="font-weight-bold mb-3">Stay good with the IRS</h5>
+              <p class="grey-text">
+                Don't be like John McAfee and flee the US on a boat because you didn't pay your
+                taxes. Let us help you stay good with IRS.
+              </p>
+            </div>
+            <!-- Grid column -->
+
+          </div>
+          <!-- Grid row -->
+
+          <!--Grid row-->
+          <div class="row">
+
+            <!-- Grid column -->
+            <div class="col-1">
+              <i class="fas fa-users fa-lg indigo-text"></i>
+            </div>
+            <!-- Grid column -->
+
+            <!-- Grid column -->
+            <div class="col-xl-10 col-md-11 col-10">
+              <h5 class="font-weight-bold mb-3">Support Us</h5>
+              <p class="grey-text mb-0">
+                Consider a donation to help this site stay operational. I want this site to be community driven,
+                providing features the people want and need.
+              </p>
+            </div>
+            <!-- Grid column -->
+
+          </div>
+          <!--Grid row-->
+
+        </div>
+        <!--Grid column-->
+
+      </div>
+      <!-- Grid row -->
+      <hr class="my-5">
+      <div class="row">
+        <!-- Grid column -->
+        <div class="col-6 col-sm-4">
+          <div class="text-center">
+            <a class="donate-with-crypto"
+               href="https://commerce.coinbase.com/checkout/df6c8fcb-399d-4aa3-8c96-7e09afc3a8cd">
+              <span><i class="fab fa-bitcoin"></i> Donate with Crypto</span>
+            </a>
+            <script src="https://commerce.coinbase.com/v1/checkout.js?version=201807">
+            </script>
+          </div>
+        </div>
+
+        <div class="col-6 col-sm-4">
+          <div class="text-center">
+            <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
+              <input type="hidden" name="cmd" value="_s-xclick"/>
+              <input type="hidden" name="hosted_button_id" value="VCUNCFZ5Y3LDY"/>
+              <input type="image" src="https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif" border="0"
+                     name="submit" title="PayPal - The safer, easier way to pay online!"
+                     alt="Donate with PayPal button"/>
+              <img alt="" border="0" src="https://www.paypal.com/en_US/i/scr/pixel.gif" width="1" height="1"/>
+            </form>
+          </div>
+        </div>
+
+        <div class="col-6 col-sm-4">
+          <div class="text-center">
+            <div id="mdb-lightbox-ui"></div>
+            <div class="mdb-lightbox">
+              <figure class="col-md-4">
+                <a href="{% static 'images/stellar-qr.png' %}" data-size="1600x1067">
+                  <img src="{% static 'images/stellar-qr.png' %}" alt="placeholder"
+                       class="img-fluid">
+                </a>
+              </figure>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+    </section>
+    <!-- Section: Features v.3 -->
+  </div>
+    <script src="{% static 'js/jquery-3.3.1.min.js' %}"></script>
+
+  <script>
+    $(function () {
+      $("#mdb-lightbox-ui").load("mdb-lightbox-ui.html");
+    });
+  </script>
+{% endblock %}

@@ -4,11 +4,12 @@ from django import forms
 # Create your models here.
 from modelcluster.fields import ParentalKey
 from modelcluster.models import ClusterableModel
-from wagtail.admin.edit_handlers import MultiFieldPanel, FieldPanel, InlinePanel, FieldRowPanel
+from wagtail.admin.edit_handlers import MultiFieldPanel, FieldPanel, InlinePanel, FieldRowPanel, StreamFieldPanel
 from wagtail.contrib.forms.models import AbstractEmailForm, AbstractFormField
 from wagtail.contrib.settings.models import BaseSetting
 from wagtail.contrib.settings.registry import register_setting
-from wagtail.core.fields import RichTextField
+from wagtail.core.blocks import RawHTMLBlock
+from wagtail.core.fields import RichTextField, StreamField
 from wagtail.core.models import Page, Orderable
 from wagtail.images.edit_handlers import ImageChooserPanel
 from wagtail.search import index
@@ -166,3 +167,22 @@ class ExternalFooterLinks(models.Model):
 
     def __str__(self):
         return self.name
+
+
+class DonatePage(Page):
+    intro_title = models.CharField(max_length=250)
+    intro = RichTextField(blank=False)
+
+    search_fields = Page.search_fields + [
+        index.SearchField('intro'),
+        index.SearchField('intro_title'),
+    ]
+
+    content_panels = Page.content_panels + [
+        FieldPanel('intro'),
+        FieldPanel('intro_title'),
+    ]
+
+    promote_panels = [
+        MultiFieldPanel(Page.promote_panels, "Common page configuration"),
+    ]
