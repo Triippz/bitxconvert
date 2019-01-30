@@ -216,3 +216,6 @@ RAVEN_CONFIG = {
 }
 # Your stuff...
 # ------------------------------------------------------------------------------
+TMP_FILE_LOC = ROOT_DIR.path('tmp')
+DOWNLOAD_FILE_DIR = 'csv/'
+DOWNLOAD_FILE_LOC = f"{MEDIA_URL}/{DOWNLOAD_FILE_DIR}/"

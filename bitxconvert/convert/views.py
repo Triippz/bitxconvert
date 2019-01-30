@@ -43,7 +43,8 @@ def home_view(request):
                 "files": file_info['conversion'].number_of_files,
                 "created_at": str(file_info['conversion'].created_at),
                 "file_name": file_info['results']['file_name'],
-                "conversion_id": file_info['conversion'].id
+                "conversion_id": file_info['conversion'].id,
+                "debug": settings.DEBUG
             }
             request.session['download_ctx'] = ctx
             return HttpResponseRedirect(reverse('convert:success'))

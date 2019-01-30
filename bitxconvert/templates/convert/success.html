@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{% load static fontawesome %}
+{% load static is_debug fontawesome download_csv %}
 
 
 {% block content %}
@@ -54,10 +54,23 @@
         <p>{{ file_name }}</p>
       </div>
       <div class="col-md-4">
-        <a class="btn btn-md blue-gradient" href="{% url 'convert:download' file=file_name %}">
-          <i>{% fontawesome_icon 'file-download' large=True %}</i>
-          Download Now
-        </a>
+        {% is_debug as DEBUG %}
+        {% if DEBUG == True %}
+          <a class="btn btn-md blue-gradient" href="{% url 'convert:download' file=file_name %}">
+            <i>{% fontawesome_icon 'file-download' large=True %}</i>
+            Download Now
+          </a>
+        {% else %}
+          {% download_csv file_name=file_name as file_link %}
+          {% if file_link.error == True %}
+            <p class="text-danger">{{ file_link.message }}</p>
+          {% else %}
+            <a class="btn btn-md blue-gradient" href="{{ file_link.message }}">
+              <i>{% fontawesome_icon 'file-download' large=True %}</i>
+              Download Now
+            </a>
+          {% endif %}
+        {% endif %}
       </div>
     </div>
 

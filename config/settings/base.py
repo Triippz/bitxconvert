@@ -284,9 +284,6 @@ SOCIALACCOUNT_ADAPTER = 'bitxconvert.users.adapters.SocialAccountAdapter'
 # ------------------------------------------------------------------------------
 
 # CONVERSION
-TMP_FILE_LOC = ROOT_DIR.path('tmp')
-DOWNLOAD_FILE_DIR = 'csv'
-DOWNLOAD_FILE_LOC = str(APPS_DIR.path('media/csv'))
 
 CONVERT_EXCHANGES = [
     'BITTREX',

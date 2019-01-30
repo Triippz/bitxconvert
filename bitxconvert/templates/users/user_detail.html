@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% load static conversions fontawesome wagtailadmin_tags %}
+{% load static is_debug download_csv conversions fontawesome wagtailadmin_tags %}
 
 {% block title %}User: {{ object.username }}{% endblock %}
 
@@ -19,7 +19,7 @@
           <!-- Avatar -->
           <div class="avatar mx-auto white">
             <img src="{% avatar_url request.user %}"
-              alt="{% static 'images/default-user.png' %}" class="rounded-circle">
+                 alt="{% static 'images/default-user.png' %}" class="rounded-circle">
           </div>
 
           <!-- Content -->
@@ -74,11 +74,25 @@
                     <td>{{ conversion.trades_processed }}</td>
                     {% if object == request.user %}
                       <td>
-                        <a class="btn btn-md blue-gradient"
-                           href="{% url 'convert:download' file=conversion.file_name %}">
-                          <i>{% fontawesome_icon 'file-download' large=True %}</i>
-                          Download Now
-                        </a>
+                        {% is_debug as DEBUG %}
+                        {% if DEBUG == True %}
+                          <a class="btn btn-md blue-gradient"
+                             href="{% url 'convert:download' file=conversion.file_name %}">
+                            <i>{% fontawesome_icon 'file-download' large=True %}</i>
+                            Download Now
+                          </a>
+                        {% else %}
+                          {% download_csv file_name=conversion.file_name as file_link %}
+                          {% if file_link.error == True %}
+                            <p class="text-danger">{{ file_link.message }}</p>
+                          {% else %}
+                            <a class="btn btn-md blue-gradient" href="{{ file_link.message }}">
+                              <i>{% fontawesome_icon 'file-download' large=True %}</i>
+                              Download Now
+                            </a>
+                          {% endif %}
+                        {% endif %}
+
                       </td>
                     {% endif %}
                   </tr>
