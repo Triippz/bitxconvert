@@ -6,7 +6,6 @@
 
 
 {% block content %}
-  <link href="{% static 'css/cointipper.css' %}" rel="stylesheet">
 
   <div class="container">
     <!-- Section: Features v.3 -->
@@ -133,14 +132,9 @@
 
         <div class="col-6 col-sm-4">
           <div class="text-center">
-            <div id="mdb-lightbox-ui"></div>
-            <div class="mdb-lightbox">
-              <figure class="col-md-4">
-                <a href="{% static 'images/stellar-qr.png' %}" data-size="1600x1067">
-                  <img src="{% static 'images/stellar-qr.png' %}" alt="placeholder"
-                       class="img-fluid">
-                </a>
-              </figure>
+            <div class="mdb-lightbox col-md-4">
+              <img src="{% static 'images/stellar-qr2.png' %}" alt="placeholder"
+                   class="img-fluid">
             </div>
           </div>
         </div>
@@ -150,11 +144,4 @@
     </section>
     <!-- Section: Features v.3 -->
   </div>
-    <script src="{% static 'js/jquery-3.3.1.min.js' %}"></script>
-
-  <script>
-    $(function () {
-      $("#mdb-lightbox-ui").load("mdb-lightbox-ui.html");
-    });
-  </script>
 {% endblock %}

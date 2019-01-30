@@ -87,7 +87,7 @@
             <a class="dropdown-item" href="{% url 'account_logout' %}">{% trans "Sign Out" %}</a>
             {% if request.user.is_superuser %}
               <a class="dropdown-item" href="/cms/">Wagtail Admin</a>
-              <a class="dropdown-item" href="/django-admin/">Django Admin</a>
+              <a class="dropdown-item" href="{% url 'djangoadmin' %}">Django Admin</a>
             {% endif %}
           </div>
         </li>
@@ -145,7 +145,6 @@
   <script src="{% static 'js/project.js' %}"></script>
   <script src="{% static 'js/addons/datatables.js' %}"></script>
   <script src="{% static 'js/addons/datatables-select.js' %}"></script>
-
   <script src="//cdnjs.cloudflare.com/ajax/libs/cookieconsent2/3.1.0/cookieconsent.min.js"></script>
   <script>
     window.addEventListener("load", function () {
@@ -239,7 +238,7 @@
 
   <!-- Copyright -->
   <div class="footer-copyright text-center py-3">© 2019 Copyright:
-    <a href="https://mdbootstrap.com/education/bootstrap/"> bitxconvert.com</a>
+    <a href="https://bitxconver.com/"> bitxconvert.com</a>
   </div>
   <!-- Copyright -->
 

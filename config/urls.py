@@ -1,4 +1,5 @@
 from django.conf import settings
+from django.conf.urls import url
 from django.urls import include, path, re_path
 from django.conf.urls.static import static
 from django.contrib import admin
@@ -14,7 +15,7 @@ urlpatterns = [
 
     path(r'django-admin/', admin.site.urls, name="djangoadmin"),
     # User management
-    path( "users/", include("bitxconvert.users.urls", namespace="users"),),
+    path("users/", include("bitxconvert.users.urls", namespace="users"),),
     path("accounts/", include("allauth.urls")),
 
     # Your stuff: custom urls includes go here
