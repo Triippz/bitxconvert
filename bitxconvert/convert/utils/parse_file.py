@@ -24,25 +24,56 @@ def get_service(text):
 
 
 def create_record(exchange, service, files, final_file_results, user=None):
-    if user.is_anonymous:
-        conversion = Conversion.objects.create(
-            number_of_files=len(files),
-            exchange=exchange,
-            tax_service=service,
-            trades_processed=final_file_results['total_orders'],
-            file_name=final_file_results['file_name']
-        )
-        return conversion
+    if settings.DEBUG:
+        if user.is_anonymous:
+            conversion = Conversion.objects.create(
+                number_of_files=len(files),
+                exchange=exchange,
+                tax_service=service,
+                trades_processed=final_file_results['total_orders'],
+                file_name=final_file_results['file_name']
+            )
+            conversion.save()
+            final_file_results['file'].close()
+            return conversion
+        else:
+            conversion = Conversion.objects.create(
+                number_of_files=len(files),
+                exchange=exchange,
+                tax_service=service,
+                trades_processed=final_file_results['total_orders'],
+                user=User.objects.get(pk=user.id),
+                file_name=final_file_results['file_name']
+            )
+            conversion.save()
+            final_file_results['file'].close()
+            return conversion
     else:
-        conversion = Conversion.objects.create(
-            number_of_files=len(files),
-            exchange=exchange,
-            tax_service=service,
-            trades_processed=final_file_results['total_orders'],
-            user=User.objects.get(pk=user.id),
-            file_name=final_file_results['file_name']
-        )
-        return conversion
+        if user.is_anonymous:
+            conversion = Conversion.objects.create(
+                number_of_files=len(files),
+                exchange=exchange,
+                tax_service=service,
+                trades_processed=final_file_results['total_orders'],
+                file_name=final_file_results['file_name'],
+                file=final_file_results['file']
+            )
+            conversion.save()
+            final_file_results['file'].close()
+            return conversion
+        else:
+            conversion = Conversion.objects.create(
+                number_of_files=len(files),
+                exchange=exchange,
+                tax_service=service,
+                trades_processed=final_file_results['total_orders'],
+                user=User.objects.get(pk=user.id),
+                file_name=final_file_results['file_name'],
+                file=final_file_results['file']
+            )
+            conversion.save()
+            final_file_results['file'].close()
+            return conversion
 
 
 def parse_files(exchange_in, service_in, files, user=None):

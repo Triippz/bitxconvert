@@ -68,3 +68,4 @@ INSTALLED_APPS += ['django_extensions']  # noqa F405
 TMP_FILE_LOC = ROOT_DIR.path('tmp')
 DOWNLOAD_FILE_DIR = 'csv'
 DOWNLOAD_FILE_LOC = str(APPS_DIR.path('media/csv'))
+

@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% load static is_debug download_csv conversions fontawesome wagtailadmin_tags %}
+{% load static is_debug conversions fontawesome wagtailadmin_tags %}
 
 {% block title %}User: {{ object.username }}{% endblock %}
 
@@ -82,11 +82,10 @@
                             Download Now
                           </a>
                         {% else %}
-                          {% download_csv file_name=conversion.file_name as file_link %}
-                          {% if file_link.error == True %}
-                            <p class="text-danger">{{ file_link.message }}</p>
+                          {% if conversion.file is None %}
+                            <p class="text-danger">Error retrieving file. Please try again later.</p>
                           {% else %}
-                            <a class="btn btn-md blue-gradient" href="{{ file_link.message }}">
+                            <a class="btn btn-md blue-gradient" href="{{ conversion.file.url }}">
                               <i>{% fontawesome_icon 'file-download' large=True %}</i>
                               Download Now
                             </a>

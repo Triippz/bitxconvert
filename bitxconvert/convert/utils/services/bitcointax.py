@@ -80,14 +80,13 @@ def write_csv(sheet, file_info, exchange):
                     buy_orders += 1
                     total_orders += 1
 
-    csvfile.close()
-
     return {
         'buy_orders': buy_orders,
         'sell_orders': sell_orders,
         'total_orders': total_orders,
         'file_name': file_info['file'],
-        'file_path': file_info['file_path']
+        'file_path': file_info['file_path'],
+        'file': csvfile
     }
 
 
