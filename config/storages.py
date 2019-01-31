@@ -38,8 +38,8 @@ def upload_media_to_s3(filename, local_file_loc, s3_loc, directory):
             # transfer.upload_file(local_path, settings.AWS_STORAGE_BUCKET_NAME,
             #                      s3_path, extra_args={'ACL': 'public-read'})
             with open(local_path, 'rb') as f:
-                val = client.upload_fileobj(f, settings.AWS_STORAGE_BUCKET_NAME, filename)
-                print(val)
+                client.upload_fileobj(f, settings.AWS_STORAGE_BUCKET_NAME, local_path, ExtraArgs={'ACL':'public-read'})
+
             # Since its been uploaded to S3, we can delete the tmp
             # Only needed for production
             os.remove(local_path)
@@ -48,7 +48,8 @@ def upload_media_to_s3(filename, local_file_loc, s3_loc, directory):
         else:
             # transfer.upload_file(local_path, settings.AWS_STORAGE_BUCKET_NAME, s3_path)
             with open(local_path, 'rb') as f:
-                client.upload_fileobj(f, settings.AWS_STORAGE_BUCKET_NAME, filename)
+                client.upload_fileobj(f, settings.AWS_STORAGE_BUCKET_NAME, local_path, ExtraArgs={'ACL':'public-read'})
+
             # Since its been uploaded to S3, we can delete the tmp
             # Only needed for production
             os.remove(local_path)
