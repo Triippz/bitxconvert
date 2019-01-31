@@ -85,7 +85,7 @@
                           {% if conversion.file is None %}
                             <p class="text-danger">Error retrieving file. Please try again later.</p>
                           {% else %}
-                            <a class="btn btn-md blue-gradient" href="{{ conversion.file.url }}">
+                            <a class="btn btn-md blue-gradient" href="{{ conversion.file_url }}">
                               <i>{% fontawesome_icon 'file-download' large=True %}</i>
                               Download Now
                             </a>

@@ -1,4 +1,3 @@
-from boto3.exceptions import S3UploadFailedError
 from storages.backends.s3boto3 import S3Boto3Storage  # noqa E402
 
 
@@ -11,11 +10,12 @@ class MediaRootS3Boto3Storage(S3Boto3Storage):
     file_overwrite = False
 
 
-def upload_media_to_s3(file, filename, local_file_loc, s3_loc):
+def upload_media_to_s3(file, filename, local_file_loc, s3_loc, directory):
     from django.conf import settings
     import os
     import boto3
     from boto3.s3.transfer import S3Transfer
+    from boto3.exceptions import S3UploadFailedError
 
     transfer = S3Transfer(boto3.client('s3',
                                        aws_access_key_id=settings.AWS_ACCESS_KEY_ID,
@@ -34,11 +34,13 @@ def upload_media_to_s3(file, filename, local_file_loc, s3_loc):
             # Since its been uploaded to S3, we can delete the tmp
             # Only needed for production
             os.remove(local_path)
+            return f'{settings.MEDIA_URL}{directory}/{filename}'
         else:
             transfer.upload_file(local_path, settings.AWS_STORAGE_BUCKET_NAME, s3_path)
             # Since its been uploaded to S3, we can delete the tmp
             # Only needed for production
             os.remove(local_path)
+            return f'{settings.MEDIA_URL}{directory}/{filename}'
     except S3UploadFailedError as e:
         raise S3UploadFailedError(e)
 

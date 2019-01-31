@@ -11,7 +11,7 @@ class Conversion(models.Model):
     trades_processed = models.IntegerField(blank=False, default=0)
     user = models.ForeignKey(settings.AUTH_USER_MODEL, blank=True, null=True, on_delete=models.CASCADE)
     file_name = models.CharField(max_length=255, blank=False)
-    file = models.FileField(blank=True)
+    file_url = models.URLField(blank=True)
 
     def get_file_url(self):
         return self.file.url

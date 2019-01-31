@@ -11,7 +11,8 @@ from bitxconvert.convert.models import Conversion
 from bitxconvert.convert.utils.services.cryptotrader import get_cryptotrader_version
 from bitxconvert.convert.utils.services.manual import get_manual_version
 from bitxconvert.users.models import User
-
+from bitxconvert.utils.exceptions import UploadFileError
+from config.storages import upload_media_to_s3
 
 
 def get_exchange(text):
@@ -54,7 +55,18 @@ def create_record(exchange, service, files, final_file_results, user=None):
             final_file_results['file'].close()
             return conversion
     else:
-        from config.settings.production import MediaRootS3Boto3Storage
+        from boto3.exceptions import S3UploadFailedError
+        # Attempt to upload to s3
+        try:
+            file_url = upload_media_to_s3(
+                final_file_results['file'],
+                final_file_results['file_name'],
+                settings.TMP_FINAL_FILE_LOC,
+                settings.CONVERT_S3_DIR,
+                settings.DOWNLOAD_FILE_DIR
+            )
+        except S3UploadFailedError as e:
+            raise UploadFileError("Error uploading file. Please try again. If this problem persists, please contact us")
 
         if user.is_anonymous:
             conversion = Conversion.objects.create(
@@ -63,13 +75,10 @@ def create_record(exchange, service, files, final_file_results, user=None):
                 tax_service=service,
                 trades_processed=final_file_results['total_orders'],
                 file_name=final_file_results['file_name'],
+                file_url=file_url
             )
-            conversion.file(storage=MediaRootS3Boto3Storage(), file=final_file_results['file'])
             conversion.save()
             final_file_results['file'].close()
-            # Since its been uploaded to S3, we can delete the tmp
-            # Only needed for production
-            os.remove(final_file_results['file_path'])
             return conversion
         else:
             conversion = Conversion.objects.create(
@@ -79,13 +88,10 @@ def create_record(exchange, service, files, final_file_results, user=None):
                 trades_processed=final_file_results['total_orders'],
                 user=User.objects.get(pk=user.id),
                 file_name=final_file_results['file_name'],
+                file_url=file_url
             )
-            conversion.file(storage=MediaRootS3Boto3Storage(), file=final_file_results['file'])
             conversion.save()
             final_file_results['file'].close()
-            # Since its been uploaded to S3, we can delete the tmp
-            # Only needed for production
-            os.remove(final_file_results['file_path'])
             return conversion
 
 

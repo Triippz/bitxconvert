@@ -6,5 +6,4 @@ register = template.Library()
 
 @register.simple_tag
 def is_debug():
-    print("debug: {}".format(settings.DEBUG))
     return settings.DEBUG

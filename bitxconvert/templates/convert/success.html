@@ -55,7 +55,7 @@
       </div>
       <div class="col-md-4">
         {% is_debug as DEBUG %}
-        {% if DEBUG == False %}
+        {% if DEBUG == True %}
           <a class="btn btn-md blue-gradient" href="{% url 'convert:download' file=file_name %}">
             <i>{% fontawesome_icon 'file-download' large=True %}</i>
             Download Now
