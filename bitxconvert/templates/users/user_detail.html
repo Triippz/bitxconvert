@@ -82,7 +82,7 @@
                             Download Now
                           </a>
                         {% else %}
-                          {% if conversion.file is None %}
+                          {% if conversion.file_url == None %}
                             <p class="text-danger">Error retrieving file. Please try again later.</p>
                           {% else %}
                             <a class="btn btn-md blue-gradient" href="{{ conversion.file_url }}">

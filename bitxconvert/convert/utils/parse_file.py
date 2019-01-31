@@ -1,5 +1,3 @@
-import os
-
 from django.conf import settings
 
 from bitxconvert.convert.utils.exchanges.binance import get_binance_version

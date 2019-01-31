@@ -26,7 +26,6 @@ def upload_media_to_s3(filename, local_file_loc, directory):
     local_path = os.path.join(f'{local_file_loc}/', filename)
     s3_path = f'{directory}{filename}'
 
-
     # As of now, we only want to give access to the .csv files
     # Everything else should be private only accessible on our domain
     try:
@@ -37,7 +36,6 @@ def upload_media_to_s3(filename, local_file_loc, directory):
             # Since its been uploaded to S3, we can delete the tmp
             # Only needed for production
             os.remove(local_path)
-            print(f'{settings.AWS_DOWNLOAD_URL}{s3_path}')
             return f'{settings.AWS_DOWNLOAD_URL}{s3_path}'
         else:
             with open(local_path, 'rb') as f:
@@ -46,12 +44,10 @@ def upload_media_to_s3(filename, local_file_loc, directory):
             # Since its been uploaded to S3, we can delete the tmp
             # Only needed for production
             os.remove(local_path)
-            print(f'{settings.AWS_DOWNLOAD_URL}{s3_path}')
             return f'{settings.AWS_DOWNLOAD_URL}{s3_path}'
     except S3UploadFailedError as e:
         print("{} : {}-->{}".format(datetime.datetime.now(), inspect.stack()[0][3], e))
         raise S3UploadFailedError(e)
     except Exception as e:
         print("{} : {}-->{}".format(datetime.datetime.now(), inspect.stack()[0][3], e))
-        inspect.stack()
         raise Exception(e)

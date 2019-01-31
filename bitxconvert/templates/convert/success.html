@@ -61,7 +61,7 @@
             Download Now
           </a>
         {% else %}
-          {% if file_url is None %}
+          {% if file_url == None %}
             <p class="text-danger">Error retrieving file. Please try again later.</p>
           {% else %}
             <a class="btn btn-md blue-gradient" href="{{ file_url }}">
