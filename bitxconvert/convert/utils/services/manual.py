@@ -34,6 +34,7 @@ def get_manual_version(file_info, exchange):
     new_file_info = write_csv(sheet, download_file_info, exchange)
 
     os.remove(file_info['file_path'])
+    print("PARSED MANUAL VERSION")
     return new_file_info
 
 
