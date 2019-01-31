@@ -102,31 +102,33 @@ def parse_files(exchange_in, service_in, files, user=None):
     file_info = {}
 
     # Let's parse the file(s) into a new file based off the exchange
-    if exchange == "BITTREX":
-        file_info = get_bittrex_version(files)
-    elif exchange == "BINANCE":
-        file_info = get_binance_version(files)
-    elif exchange == "COINBASE":
-        file_info = get_coinbase_version(files)
-
-    # Now let's modify that new file into the format needed by the service chosen
-    final_file_results = ""
-    if service == "MANUAL":
-        final_file_results = get_manual_version(file_info, exchange)
-    elif service == "CRYPTOTRADER":
-        final_file_results = get_cryptotrader_version(file_info, exchange)
-    elif service == "BITCOINTAX":
-        final_file_results = get_bitcointax_version(file_info, exchange)
-    elif service == "COINTRACKER":
-        final_file_results = get_cointracker_version(file_info)
-
     try:
+        if exchange == "BITTREX":
+            file_info = get_bittrex_version(files)
+        elif exchange == "BINANCE":
+            file_info = get_binance_version(files)
+        elif exchange == "COINBASE":
+            file_info = get_coinbase_version(files)
+
+        # Now let's modify that new file into the format needed by the service chosen
+        final_file_results = ""
+        if service == "MANUAL":
+            final_file_results = get_manual_version(file_info, exchange)
+        elif service == "CRYPTOTRADER":
+            final_file_results = get_cryptotrader_version(file_info, exchange)
+        elif service == "BITCOINTAX":
+            final_file_results = get_bitcointax_version(file_info, exchange)
+        elif service == "COINTRACKER":
+            final_file_results = get_cointracker_version(file_info)
+
         if user is None:
             conversion = create_record(exchange, service, files, final_file_results)
         else:
             conversion = create_record(exchange, service, files, final_file_results, user)
     except UploadFileError as e:
         raise UploadFileError(e)
+    except Exception as e:
+        raise Exception(e)
 
     return {
         'conversion': conversion,
