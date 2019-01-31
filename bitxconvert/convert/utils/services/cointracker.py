@@ -59,7 +59,7 @@ def write_csv(sheet, file_info):
 
 def create_download_file():
     file_name = "{}.csv".format(create_tmp_name())
-    file_path = "{}/{}".format(settings.DOWNLOAD_FILE_LOC, file_name)
+    file_path = "{}/{}".format(settings.TMP_FINAL_FILE_LOC, file_name)
     return {
         "file": file_name,
         "file_path": file_path

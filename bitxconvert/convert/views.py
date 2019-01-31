@@ -36,17 +36,29 @@ def home_view(request):
                 return TemplateResponse(
                     request, "convert/home.html", {'form': form, 'error': e}
                 )
-            ctx = {
-                "processed": file_info['conversion'].trades_processed,
-                "exchange": file_info['conversion'].exchange,
-                "service": file_info['conversion'].tax_service,
-                "files": file_info['conversion'].number_of_files,
-                "created_at": str(file_info['conversion'].created_at),
-                "file_name": file_info['results']['file_name'],
-                "conversion_id": file_info['conversion'].id,
-                "debug": settings.DEBUG,
-                "file": file_info['conversion'].file
-            }
+            if settings.DEBUG:
+                ctx = {
+                    "processed": file_info['conversion'].trades_processed,
+                    "exchange": file_info['conversion'].exchange,
+                    "service": file_info['conversion'].tax_service,
+                    "files": file_info['conversion'].number_of_files,
+                    "created_at": str(file_info['conversion'].created_at),
+                    "file_name": file_info['results']['file_name'],
+                    "conversion_id": file_info['conversion'].id,
+                    "debug": settings.DEBUG
+                }
+            else:
+                ctx = {
+                    "processed": file_info['conversion'].trades_processed,
+                    "exchange": file_info['conversion'].exchange,
+                    "service": file_info['conversion'].tax_service,
+                    "files": file_info['conversion'].number_of_files,
+                    "created_at": str(file_info['conversion'].created_at),
+                    "file_name": file_info['results']['file_name'],
+                    "conversion_id": file_info['conversion'].id,
+                    "debug": settings.DEBUG,
+                    "file_url": file_info['conversion'].file.url
+                }
             request.session['download_ctx'] = ctx
             return HttpResponseRedirect(reverse('convert:success'))
         except EmptyExchangeField as e:
@@ -67,7 +79,7 @@ def home_view(request):
 
 
 def download(request, file):
-    file_path = os.path.join(settings.MEDIA_ROOT, settings.DOWNLOAD_FILE_DIR, file)
+    file_path = os.path.join(settings.TMP_FINAL_FILE_LOC, file)
     print(file_path)
     if os.path.exists(file_path):
         with open(file_path, 'rb') as fh:

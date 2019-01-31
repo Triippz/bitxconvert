@@ -1,7 +1,6 @@
 import uuid
 from django.conf import settings
 import xlsxwriter
-import csv
 
 
 def create_tmp_name():

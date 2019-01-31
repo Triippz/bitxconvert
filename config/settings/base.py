@@ -10,7 +10,7 @@ APPS_DIR = ROOT_DIR.path('bitxconvert')
 
 env = environ.Env()
 
-READ_DOT_ENV_FILE = env.bool('DJANGO_READ_DOT_ENV_FILE', default=True)
+READ_DOT_ENV_FILE = env.bool('DJANGO_READ_DOT_ENV_FILE', default=False)
 if READ_DOT_ENV_FILE:
     # OS environment variables take precedence over variables from .env
     env.read_env(str(ROOT_DIR.path('.env')))
@@ -284,6 +284,10 @@ SOCIALACCOUNT_ADAPTER = 'bitxconvert.users.adapters.SocialAccountAdapter'
 # ------------------------------------------------------------------------------
 
 # CONVERSION
+TMP_FILE_LOC = ROOT_DIR.path('tmp')
+TMP_FINAL_FILE_LOC = ROOT_DIR.path('tmp/csv')
+DOWNLOAD_FILE_DIR = 'csv'
+DOWNLOAD_FILE_LOC = f'{MEDIA_URL}{DOWNLOAD_FILE_DIR}'
 
 CONVERT_EXCHANGES = [
     'BITTREX',

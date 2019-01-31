@@ -82,16 +82,16 @@ STATIC_URL = f'https://{AWS_STORAGE_BUCKET_NAME}.s3.amazonaws.com/static/'
 
 # region http://stackoverflow.com/questions/10390244/
 # Full-fledge class: https://stackoverflow.com/a/18046120/104731
-from storages.backends.s3boto3 import S3Boto3Storage  # noqa E402
-
-
-class StaticRootS3Boto3Storage(S3Boto3Storage):
-    location = 'static'
-
-
-class MediaRootS3Boto3Storage(S3Boto3Storage):
-    location = 'media'
-    file_overwrite = False
+# from storages.backends.s3boto3 import S3Boto3Storage  # noqa E402
+#
+#
+# class StaticRootS3Boto3Storage(S3Boto3Storage):
+#     location = 'static'
+#
+#
+# class MediaRootS3Boto3Storage(S3Boto3Storage):
+#     location = 'media'
+#     file_overwrite = False
 
 
 # endregion

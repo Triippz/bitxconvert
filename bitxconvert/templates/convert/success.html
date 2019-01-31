@@ -55,16 +55,16 @@
       </div>
       <div class="col-md-4">
         {% is_debug as DEBUG %}
-        {% if DEBUG == True %}
+        {% if DEBUG == False %}
           <a class="btn btn-md blue-gradient" href="{% url 'convert:download' file=file_name %}">
             <i>{% fontawesome_icon 'file-download' large=True %}</i>
             Download Now
           </a>
         {% else %}
-          {% if file is None %}
+          {% if file_url is None %}
             <p class="text-danger">Error retrieving file. Please try again later.</p>
           {% else %}
-            <a class="btn btn-md blue-gradient" href="{{ file.url }}">
+            <a class="btn btn-md blue-gradient" href="{{ file_url }}">
               <i>{% fontawesome_icon 'file-download' large=True %}</i>
               Download Now
             </a>
