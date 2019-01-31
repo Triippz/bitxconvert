@@ -14,4 +14,4 @@ class Conversion(models.Model):
     file_url = models.URLField(blank=True)
 
     def get_file_url(self):
-        return self.file.url
+        return self.file_url
