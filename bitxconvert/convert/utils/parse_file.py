@@ -62,8 +62,7 @@ def create_record(exchange, service, files, final_file_results, user=None):
             file_url = upload_media_to_s3(
                 final_file_results['file_name'],
                 settings.TMP_FINAL_FILE_LOC,
-                settings.CONVERT_S3_DIR,
-                settings.DOWNLOAD_FILE_DIR
+                settings.CONVERT_S3_DIR
             )
         except S3UploadFailedError as e:
             raise UploadFileError("Error uploading file. Please try again. If this problem persists, please contact us")
