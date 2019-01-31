@@ -35,7 +35,6 @@ def get_binance_version(files):
         convert_rows(sheet, new_sheet)
 
     new_wb.close()
-    print("Parsed BINANCE FILE")
     return tmp_file
 
 

@@ -67,32 +67,37 @@ def create_record(exchange, service, files, final_file_results, user=None):
             )
         except S3UploadFailedError as e:
             raise UploadFileError("Error uploading file. Please try again. If this problem persists, please contact us")
+        except Exception as e:
+            raise Exception("Error uploading file. THIS IS A GENERIC EXCEPTION")
 
-        if user.is_anonymous:
-            conversion = Conversion.objects.create(
-                number_of_files=len(files),
-                exchange=exchange,
-                tax_service=service,
-                trades_processed=final_file_results['total_orders'],
-                file_name=final_file_results['file_name'],
-                file_url=file_url
-            )
-            conversion.save()
-            final_file_results['file'].close()
-            return conversion
-        else:
-            conversion = Conversion.objects.create(
-                number_of_files=len(files),
-                exchange=exchange,
-                tax_service=service,
-                trades_processed=final_file_results['total_orders'],
-                user=User.objects.get(pk=user.id),
-                file_name=final_file_results['file_name'],
-                file_url=file_url
-            )
-            conversion.save()
-            final_file_results['file'].close()
-            return conversion
+        try:
+            if user.is_anonymous:
+                conversion = Conversion.objects.create(
+                    number_of_files=len(files),
+                    exchange=exchange,
+                    tax_service=service,
+                    trades_processed=final_file_results['total_orders'],
+                    file_name=final_file_results['file_name'],
+                    file_url=file_url
+                )
+                conversion.save()
+                final_file_results['file'].close()
+                return conversion
+            else:
+                conversion = Conversion.objects.create(
+                    number_of_files=len(files),
+                    exchange=exchange,
+                    tax_service=service,
+                    trades_processed=final_file_results['total_orders'],
+                    user=User.objects.get(pk=user.id),
+                    file_name=final_file_results['file_name'],
+                    file_url=file_url
+                )
+                conversion.save()
+                final_file_results['file'].close()
+                return conversion
+        except Exception as e:
+            raise Exception("ERROR SAVING MODAL")
 
 
 def parse_files(exchange_in, service_in, files, user=None):
