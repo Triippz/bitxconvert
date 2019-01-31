@@ -11,7 +11,7 @@ from bitxconvert.convert.models import Conversion
 from bitxconvert.convert.utils.services.cryptotrader import get_cryptotrader_version
 from bitxconvert.convert.utils.services.manual import get_manual_version
 from bitxconvert.users.models import User
-from config.storages import MediaRootS3Boto3Storage
+
 
 
 def get_exchange(text):
@@ -54,7 +54,8 @@ def create_record(exchange, service, files, final_file_results, user=None):
             final_file_results['file'].close()
             return conversion
     else:
-        print(final_file_results['file'])
+        from config.settings.production import MediaRootS3Boto3Storage
+
         if user.is_anonymous:
             conversion = Conversion.objects.create(
                 number_of_files=len(files),
