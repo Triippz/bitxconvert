@@ -9,6 +9,7 @@ from bitxconvert.convert.models import Conversion
 from bitxconvert.convert.utils.services.cryptotrader import get_cryptotrader_version
 from bitxconvert.convert.utils.services.manual import get_manual_version
 from bitxconvert.users.models import User
+from config.settings.production import MediaRootS3Boto3Storage
 
 
 def get_exchange(text):
@@ -49,6 +50,8 @@ def create_record(exchange, service, files, final_file_results, user=None):
             final_file_results['file'].close()
             return conversion
     else:
+        from django.conf import settings
+
         if user.is_anonymous:
             conversion = Conversion.objects.create(
                 number_of_files=len(files),
@@ -56,8 +59,9 @@ def create_record(exchange, service, files, final_file_results, user=None):
                 tax_service=service,
                 trades_processed=final_file_results['total_orders'],
                 file_name=final_file_results['file_name'],
-                file=final_file_results['file']
+                # file=final_file_results['file']
             )
+            conversion.file(storage=MediaRootS3Boto3Storage(), file=final_file_results['file'])
             conversion.save()
             final_file_results['file'].close()
             return conversion
@@ -69,8 +73,9 @@ def create_record(exchange, service, files, final_file_results, user=None):
                 trades_processed=final_file_results['total_orders'],
                 user=User.objects.get(pk=user.id),
                 file_name=final_file_results['file_name'],
-                file=final_file_results['file']
+                # file=final_file_results['file']
             )
+            conversion.file(storage=MediaRootS3Boto3Storage(), file=final_file_results['file'])
             conversion.save()
             final_file_results['file'].close()
             return conversion
