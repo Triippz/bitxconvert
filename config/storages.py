@@ -33,13 +33,17 @@ def upload_media_to_s3(file, filename, local_file_loc, s3_loc, directory):
                                  s3_path, extra_args={'ACL': 'public-read'})
             # Since its been uploaded to S3, we can delete the tmp
             # Only needed for production
+            print("FILE UPLOADED")
             os.remove(local_path)
+            print("FILE REMOVED")
             return f'{settings.MEDIA_URL}{directory}/{filename}'
         else:
             transfer.upload_file(local_path, settings.AWS_STORAGE_BUCKET_NAME, s3_path)
             # Since its been uploaded to S3, we can delete the tmp
             # Only needed for production
+            print("FILE UPLOADED")
             os.remove(local_path)
+            print("FILE REMOVED")
             return f'{settings.MEDIA_URL}{directory}/{filename}'
     except S3UploadFailedError as e:
         raise S3UploadFailedError(e)
