@@ -120,10 +120,13 @@ def parse_files(exchange_in, service_in, files, user=None):
     elif service == "COINTRACKER":
         final_file_results = get_cointracker_version(file_info)
 
-    if user is None:
-        conversion = create_record(exchange, service, files, final_file_results)
-    else:
-        conversion = create_record(exchange, service, files, final_file_results, user)
+    try:
+        if user is None:
+            conversion = create_record(exchange, service, files, final_file_results)
+        else:
+            conversion = create_record(exchange, service, files, final_file_results, user)
+    except UploadFileError as e:
+        raise UploadFileError(e)
 
     return {
         'conversion': conversion,

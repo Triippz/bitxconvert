@@ -11,7 +11,7 @@ from bitxconvert.convert.forms import ConvertFilesForm
 from bitxconvert.convert.utils.parse_file import parse_files
 from bitxconvert.convert.utils.validation import validate_convert
 from bitxconvert.utils.exceptions import IncorrectFileFormat, IncorrectExchangeException, EmptyExchangeField, \
-    EmptyServiceField
+    EmptyServiceField, UploadFileError
 
 
 def home_view(request):
@@ -36,6 +36,13 @@ def home_view(request):
                 return TemplateResponse(
                     request, "convert/home.html", {'form': form, 'error': e}
                 )
+            except UploadFileError as e:
+                print("{} -- Error: {}-->{}".format(datetime.datetime.now(), inspect.stack()[0][3], e))
+                form = ConvertFilesForm()
+                return TemplateResponse(
+                    request, "convert/home.html", {'form': form, 'error': e}
+                )
+
             if settings.DEBUG:
                 ctx = {
                     "processed": file_info['conversion'].trades_processed,
