@@ -71,6 +71,8 @@ AWS_S3_OBJECT_PARAMETERS = {
     'CacheControl': f'max-age={_AWS_EXPIRY}, s-maxage={_AWS_EXPIRY}, must-revalidate',
 }
 
+AWS_DEFAULT_ACL = None
+
 # STATIC
 # ------------------------
 

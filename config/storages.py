@@ -1,3 +1,6 @@
+import datetime
+import inspect
+
 from storages.backends.s3boto3 import S3Boto3Storage  # noqa E402
 
 
@@ -47,4 +50,8 @@ def upload_media_to_s3(file, filename, local_file_loc, s3_loc, directory):
             return f'{settings.MEDIA_URL}{directory}/{filename}'
     except S3UploadFailedError as e:
         raise S3UploadFailedError(e)
+    except Exception as e:
+        print("ERROR: {} : {}-->{}".format(datetime.datetime.now(), inspect.stack()[0][3], e))
+        print(inspect.stack())
+        raise Exception(e)
 

@@ -58,11 +58,11 @@ def create_record(exchange, service, files, final_file_results, user=None):
         from boto3.exceptions import S3UploadFailedError
         # Attempt to upload to s3
         try:
-            print(f'{final_file_results["file"]}\n'
-                  f'{final_file_results["file_name"]}\n'
-                  f'{settings.TMP_FINAL_FILE_LOC}\n'
-                  f'{settings.CONVERT_S3_DIR}\n'
-                  f'{settings.DOWNLOAD_FILE_DIR}')
+            # print(f'{final_file_results["file"]}\n'
+            #       f'{final_file_results["file_name"]}\n'
+            #       f'{settings.TMP_FINAL_FILE_LOC}\n'
+            #       f'{settings.CONVERT_S3_DIR}\n'
+            #       f'{settings.DOWNLOAD_FILE_DIR}')
             file_url = upload_media_to_s3(
                 final_file_results['file'],
                 final_file_results['file_name'],
