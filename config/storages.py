@@ -24,33 +24,40 @@ def upload_media_to_s3(filename, local_file_loc, s3_loc, directory):
     transfer = S3Transfer(boto3.client('s3',
                                        aws_access_key_id=settings.AWS_ACCESS_KEY_ID,
                                        aws_secret_access_key=settings.AWS_SECRET_ACCESS_KEY))
-    client = boto3.client('s3')
+    client = boto3.client('s3', aws_access_key_id=settings.AWS_ACCESS_KEY_ID,
+                          aws_secret_access_key=settings.AWS_SECRET_ACCESS_KEY)
 
     local_path = os.path.join(f'{local_file_loc}/', filename)
     s3_path = os.path.join(s3_loc)
+
 
     # As of now, we only want to give access to the .csv files
     # Everything else should be private only accessible on our domain
     try:
         if filename.endswith('.csv'):
-            transfer.upload_file(local_path, settings.AWS_STORAGE_BUCKET_NAME,
-                                 s3_path, extra_args={'ACL': 'public-read'})
+            # transfer.upload_file(local_path, settings.AWS_STORAGE_BUCKET_NAME,
+            #                      s3_path, extra_args={'ACL': 'public-read'})
+            with open(local_path, 'rb') as f:
+                val = client.upload_fileobj(f, settings.AWS_STORAGE_BUCKET_NAME, filename)
+                print(val)
             # Since its been uploaded to S3, we can delete the tmp
             # Only needed for production
             os.remove(local_path)
             print(f'{settings.AWS_DOWNLOAD_URL}{directory}/{filename}')
             return f'{settings.AWS_DOWNLOAD_URL}{directory}/{filename}'
         else:
-            transfer.upload_file(local_path, settings.AWS_STORAGE_BUCKET_NAME, s3_path)
+            # transfer.upload_file(local_path, settings.AWS_STORAGE_BUCKET_NAME, s3_path)
+            with open(local_path, 'rb') as f:
+                client.upload_fileobj(f, settings.AWS_STORAGE_BUCKET_NAME, filename)
             # Since its been uploaded to S3, we can delete the tmp
             # Only needed for production
             os.remove(local_path)
-            print( f'{settings.AWS_DOWNLOAD_URL}{directory}/{filename}')
+            print(f'{settings.AWS_DOWNLOAD_URL}{directory}/{filename}')
             return f'{settings.AWS_DOWNLOAD_URL}{directory}/{filename}'
     except S3UploadFailedError as e:
+        print("{} : {}-->{}".format(datetime.datetime.now(), inspect.stack()[0][3], e))
         raise S3UploadFailedError(e)
     except Exception as e:
         print("{} : {}-->{}".format(datetime.datetime.now(), inspect.stack()[0][3], e))
         inspect.stack()
         raise Exception(e)
-
