@@ -38,18 +38,19 @@ def upload_media_to_s3(filename, local_file_loc, s3_loc, directory):
             # Since its been uploaded to S3, we can delete the tmp
             # Only needed for production
             os.remove(local_path)
-            logging.INFO(f'{settings.MEDIA_URL}{directory}/{filename}')
+            print(f'{settings.MEDIA_URL}{directory}/{filename}')
             return f'{settings.MEDIA_URL}{directory}/{filename}'
         else:
             transfer.upload_file(local_path, settings.AWS_STORAGE_BUCKET_NAME, s3_path)
             # Since its been uploaded to S3, we can delete the tmp
             # Only needed for production
             os.remove(local_path)
-            logging.INFO(f'{settings.MEDIA_URL}{directory}/{filename}')
+            print( f'{settings.MEDIA_URL}{directory}/{filename}')
             return f'{settings.MEDIA_URL}{directory}/{filename}'
     except S3UploadFailedError as e:
         raise S3UploadFailedError(e)
     except Exception as e:
-        logging.ERROR("{} : {}-->{}".format(datetime.datetime.now(), inspect.stack()[0][3], e))
+        print("{} : {}-->{}".format(datetime.datetime.now(), inspect.stack()[0][3], e))
+        inspect.stack()
         raise Exception(e)
 

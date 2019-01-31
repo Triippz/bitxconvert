@@ -1,7 +1,6 @@
 import inspect
 import os
 import datetime
-import logging
 
 from django.http import Http404, FileResponse, HttpResponseRedirect
 from django.template.response import TemplateResponse
@@ -26,25 +25,25 @@ def home_view(request):
             try:
                 file_info = parse_files(exchange, service, files, request.user)
             except IncorrectFileFormat as e:
-                logging.ERROR("{} : {}-->{}".format(datetime.datetime.now(), inspect.stack()[0][3], e))
+                print("ERROR: {} : {}-->{}".format(datetime.datetime.now(), inspect.stack()[0][3], e))
                 form = ConvertFilesForm()
                 return TemplateResponse(
                     request, "convert/home.html", {'form': form, 'error': e}
                 )
             except IncorrectExchangeException as e:
-                logging.ERROR("{} : {}-->{}".format(datetime.datetime.now(), inspect.stack()[0][3], e))
+                print("ERROR: {} : {}-->{}".format(datetime.datetime.now(), inspect.stack()[0][3], e))
                 form = ConvertFilesForm()
                 return TemplateResponse(
                     request, "convert/home.html", {'form': form, 'error': e}
                 )
             except UploadFileError as e:
-                logging.ERROR("{} : {}-->{}".format(datetime.datetime.now(), inspect.stack()[0][3], e))
+                print("ERROR: {} : {}-->{}".format(datetime.datetime.now(), inspect.stack()[0][3], e))
                 form = ConvertFilesForm()
                 return TemplateResponse(
                     request, "convert/home.html", {'form': form, 'error': e}
                 )
             except Exception as e:
-                logging.ERROR("{} : {}-->{}".format(datetime.datetime.now(), inspect.stack()[0][3], e))
+                print("ERROR: {} : {}-->{}".format(datetime.datetime.now(), inspect.stack()[0][3], e))
                 form = ConvertFilesForm()
                 return TemplateResponse(
                     request, "convert/home.html", {'form': form, 'error': "Error uploading file. Please try again "
