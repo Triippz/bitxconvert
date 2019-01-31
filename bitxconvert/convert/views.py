@@ -22,6 +22,7 @@ def home_view(request):
             exchange = request.POST['exchange']
             service = request.POST['convert']
             files = request.FILES.getlist('file_field')
+            print(files)
             try:
                 file_info = parse_files(exchange, service, files, request.user)
             except IncorrectFileFormat as e:
@@ -37,6 +38,12 @@ def home_view(request):
                     request, "convert/home.html", {'form': form, 'error': e}
                 )
             except UploadFileError as e:
+                print("{} -- Error: {}-->{}".format(datetime.datetime.now(), inspect.stack()[0][3], e))
+                form = ConvertFilesForm()
+                return TemplateResponse(
+                    request, "convert/home.html", {'form': form, 'error': e}
+                )
+            except Exception as e:
                 print("{} -- Error: {}-->{}".format(datetime.datetime.now(), inspect.stack()[0][3], e))
                 form = ConvertFilesForm()
                 return TemplateResponse(
