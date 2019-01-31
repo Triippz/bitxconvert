@@ -13,7 +13,7 @@ class MediaRootS3Boto3Storage(S3Boto3Storage):
     file_overwrite = False
 
 
-def upload_media_to_s3(file, filename, local_file_loc, s3_loc, directory):
+def upload_media_to_s3(filename, local_file_loc, s3_loc, directory):
     from django.conf import settings
     import os
     import boto3
@@ -31,7 +31,7 @@ def upload_media_to_s3(file, filename, local_file_loc, s3_loc, directory):
     # As of now, we only want to give access to the .csv files
     # Everything else should be private only accessible on our domain
     try:
-        if file.endswith('.csv'):
+        if filename.endswith('.csv'):
             transfer.upload_file(local_path, settings.AWS_STORAGE_BUCKET_NAME,
                                  s3_path, extra_args={'ACL': 'public-read'})
             # Since its been uploaded to S3, we can delete the tmp
