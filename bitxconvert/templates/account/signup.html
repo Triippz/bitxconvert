@@ -2,6 +2,7 @@
 
 {% load i18n static %}
 {% load crispy_forms_tags  socialaccount crispy_forms_field %}
+{% providers_media_js %}
 
 {% block head_title %}{% trans "Signup" %}{% endblock %}
 
@@ -39,7 +40,7 @@
             <!-- Social register -->
             <p>or sign up with:</p>
 
-            <a type="button" href="{% provider_login_url "facebook" process="connect" %}">
+            <a type="button" href="{% provider_login_url "facebook" method="js_sdk" process="connect" %}">
               <i class="fab fa-facebook-f fa-fw blue-text"></i>
             </a>
 
