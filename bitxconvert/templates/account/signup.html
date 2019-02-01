@@ -40,7 +40,7 @@
             <!-- Social register -->
             <p>or sign up with:</p>
 
-            <a type="button" href="{% provider_login_url "facebook" method="js_sdk" process="connect" %}">
+            <a type="button" href="{% provider_login_url "facebook" method="oauth2" process="login" %}">
               <i class="fab fa-facebook-f fa-fw blue-text"></i>
             </a>
 
@@ -52,7 +52,7 @@
 {#              <i class="fab fa-github fa-fw black-text"></i>#}
 {#            </a>#}
 
-            <a type="button" href="{% provider_login_url "google" process="connect" %}">
+            <a type="button" href="{% provider_login_url "google" process="login" %}">
               <i class="fab fa-google fa-fw deep-orange-text"></i>
             </a>
           {% endif %}
