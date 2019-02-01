@@ -1,5 +1,4 @@
 from django.db import models
-from django import forms
 
 # Create your models here.
 from modelcluster.fields import ParentalKey
@@ -8,8 +7,7 @@ from wagtail.admin.edit_handlers import MultiFieldPanel, FieldPanel, InlinePanel
 from wagtail.contrib.forms.models import AbstractEmailForm, AbstractFormField
 from wagtail.contrib.settings.models import BaseSetting
 from wagtail.contrib.settings.registry import register_setting
-from wagtail.core.blocks import RawHTMLBlock
-from wagtail.core.fields import RichTextField, StreamField
+from wagtail.core.fields import RichTextField
 from wagtail.core.models import Page, Orderable
 from wagtail.images.edit_handlers import ImageChooserPanel
 from wagtail.search import index
@@ -36,6 +34,22 @@ class SocialMediaSettings(BaseSetting):
         max_length=255, help_text='Your Facbook AppID', null=True, blank=True)
     google_analytics_key = models.CharField(
         max_length=255, help_text='Your Google Analytics Key', null=True, blank=True)
+
+
+@register_setting
+class SiteBranding(BaseSetting):
+    logo = models.ForeignKey(
+        'wagtailimages.Image',
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name='+'
+    )
+    site_name = models.CharField(max_length=250, null=True, blank=True)
+    panels = [
+        ImageChooserPanel('logo'),
+        FieldPanel('site_name'),
+    ]
 
 
 class CoreIndexPage(Page):

@@ -1,6 +1,6 @@
-{% load settings_tags %}
+{#{% load settings_tags %}#}
 
-{% if settings.pages.SocialMediaSettings.google_analytics_key %}
+{#{% if settings.pages.SocialMediaSettings.google_analytics_key %}#}
 {#  <script>#}
 {#    (function (i, s, o, g, r, a, m) {#}
 {#      i['GoogleAnalyticsObject'] = r;#}
@@ -19,17 +19,15 @@
 {#  </script>#}
 
   <!-- Global site tag (gtag.js) - Google Analytics -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-133517568-1"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-133517568-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
 
-    function gtag() {
-      dataLayer.push(arguments);
-    }
+  gtag('config', 'UA-133517568-1');
+</script>
 
-    gtag('js', new Date());
 
-    gtag('config', '{{ settings.pages.SocialMediaSettings.google_analytics_key }}');
-  </script>
-
-{% endif %}
+{#{% endif %}#}

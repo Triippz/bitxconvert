@@ -1,4 +1,4 @@
-{% load wagtailcore_tags wagtailimages_tags %}
+{% load wagtailcore_tags wagtailimages_tags static %}
 
 <meta property="og:title" content="{% if self.seo_title %}{{ self.seo_title }}{% else %}{{ self.title }}{% endif %}"/>
 <meta property="og:url" content="{{ request.build_absolute_uri }}" />
@@ -8,7 +8,7 @@
 	{% image self.feed_image width-1200 as img %}
 	<meta property="og:image" content="{% if request.is_secure %}https://{% else %}http://{% endif %}{{ request.get_host }}{{ img.url }}" />
 {% else %}
-	<meta property="og:image" content="http://yalgoogenetics.com.au/images/no_image.jpg" />
+	<meta property="og:image" content="{% static 'images/logos/bxc.png' %}" />
 {% endif %}
 {% if settings.pages.SocialMediaSettings.facebook_appid  %}
 <meta property="fb:app_id" content="{{ settings.pages.SocialMediaSettings.facebook_appid  }}" />
