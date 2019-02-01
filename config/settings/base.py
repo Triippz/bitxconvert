@@ -284,6 +284,41 @@ ACCOUNT_ADAPTER = 'bitxconvert.users.adapters.AccountAdapter'
 # https://django-allauth.readthedocs.io/en/latest/configuration.html
 SOCIALACCOUNT_ADAPTER = 'bitxconvert.users.adapters.SocialAccountAdapter'
 
+SOCIALACCOUNT_PROVIDERS = {
+    'google': {
+        'SCOPE': [
+            'profile',
+            'email',
+        ],
+        'AUTH_PARAMS': {
+            'access_type': 'online',
+        }
+    },
+    'facebook': {
+        'METHOD': 'js_sdk',
+        'SCOPE': ['email', 'public_profile', 'user_friends'],
+        'AUTH_PARAMS': {'auth_type': 'reauthenticate'},
+        'INIT_PARAMS': {'cookie': True},
+        'FIELDS': [
+            'id',
+            'email',
+            'name',
+            'first_name',
+            'last_name',
+            'verified',
+            'locale',
+            'timezone',
+            'link',
+            'gender',
+            'updated_time',
+        ],
+        'EXCHANGE_TOKEN': True,
+        'LOCALE_FUNC': lambda request: 'en_US',
+        'VERIFIED_EMAIL': False,
+        'VERSION': 'v2.12',
+    }
+}
+
 # Your stuff...
 # ------------------------------------------------------------------------------
 
@@ -292,7 +327,6 @@ TMP_FILE_LOC = ROOT_DIR.path('tmp')
 TMP_FINAL_FILE_LOC = ROOT_DIR.path('tmp/csv')
 DOWNLOAD_FILE_DIR = 'csv'
 DOWNLOAD_FILE_LOC = f'{MEDIA_URL}{DOWNLOAD_FILE_DIR}'
-
 
 CONVERT_EXCHANGES = [
     'BITTREX',
@@ -340,4 +374,3 @@ WAGTAIL_SITE_NAME = "BitXConvert"
 # }
 
 # NEED TO MIGRATE
-
