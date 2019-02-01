@@ -1,0 +1,32 @@
+{% load socialaccount static %}
+
+
+{% get_providers as socialaccount_providers %}
+<div class="list-group-flush">
+  {% for provider in socialaccount_providers %}
+    {% if provider.id == "openid" %}
+      {% for brand in provider.get_brands %}
+        <div class="list-group-item">
+          <p class="mb-0"
+             href="{% provider_login_url provider.id openid=brand.openid_url process=process %}">
+            <i class="fab fa-{{ brand.id }} fa-2x mr-4 blue p-3 white-text rounded " aria-hidden="true">
+            </i>{{ brand.name }}
+          </p>
+        </div>
+      {% endfor %}
+    {% endif %}
+
+    <div class="list-group-item">
+      <a title="{{ provider.name }}" class="mb-0"
+         href="{% provider_login_url provider.id process=process scope=scope auth_params=auth_params %}">
+        {% if provider.name == "Facebook" %}
+          <i class="fab fa-facebook fa-2x mr-4 blue p-3 white-text rounded " aria-hidden="true">
+        {% else %}
+          <i class="fab fa-google fa-2x mr-4 blue p-3 white-text rounded " aria-hidden="true">
+        {% endif %}
+        </i>{{ provider.name }}
+      </a>
+    </div>
+  {% endfor %}
+</div>
+
