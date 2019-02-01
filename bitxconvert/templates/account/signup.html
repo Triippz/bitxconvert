@@ -1,23 +1,75 @@
 {% extends "account/base.html" %}
 
-{% load i18n %}
-{% load crispy_forms_tags %}
+{% load i18n static %}
+{% load crispy_forms_tags  socialaccount crispy_forms_field %}
 
 {% block head_title %}{% trans "Signup" %}{% endblock %}
 
 {% block inner %}
-<h1>{% trans "Sign Up" %}</h1>
 
-<p>{% blocktrans %}Already have an account? Then please <a href="{{ login_url }}">sign in</a>.{% endblocktrans %}</p>
+  <!-- Material form register -->
+  <div class="container">
 
-<form class="signup" id="signup_form" method="post" action="{% url 'account_signup' %}">
-  {% csrf_token %}
-  {{ form|crispy }}
-  {% if redirect_field_value %}
-  <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
-  {% endif %}
-  <button class="btn btn-primary" type="submit">{% trans "Sign Up" %} &raquo;</button>
-</form>
+    <div class="card my-4">
+
+      <h5 class="card-header info-color white-text text-center py-4">
+        <strong>Sign up</strong>
+      </h5>
+
+      <!--Card content-->
+      <div class="card-body px-lg-5 pt-0">
+
+        <!-- Form -->
+        <form id="signup_form" class="text-center" method="post" action="{% url 'account_signup' %}"
+              style="color: #757575;">
+
+          {% csrf_token %}
+          {{ form|crispy }}
+
+          {% if redirect_field_value %}
+            <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}"/>
+          {% endif %}
+          <!-- Sign up button -->
+          <button class="btn btn-outline-info btn-rounded btn-block my-4 waves-effect z-depth-0" type="submit">
+            {% trans "Sign Up" %}
+          </button>
+
+          {% get_providers as socialaccount_providers %}
+          {% if socialaccount_providers %}
+            <!-- Social register -->
+            <p>or sign up with:</p>
+
+            <a type="button" href="{% provider_login_url "facebook" process="connect" %}">
+              <i class="fab fa-facebook-f fa-fw blue-text"></i>
+            </a>
+
+            <a type="button" href="{% provider_login_url "discord" process="connect" %}">
+              <i class="fab fa-discord fa-fw indigo-text"></i>
+            </a>
+
+            <a type="button" href="{% provider_login_url "github" process="connect" %}">
+              <i class="fab fa-github fa-fw black-text"></i>
+            </a>
+
+            <a type="button" href="{% provider_login_url "google" process="connect" %}">
+              <i class="fab fa-google fa-fw deep-orange-text"></i>
+            </a>
+          {% endif %}
+          <hr>
+
+          <!-- Terms of service -->
+          <p>By clicking
+            <em>Sign up</em> you agree to our
+            <a href="/terms-of-service" target="_blank">Terms of Service</a>
+
+        </form>
+        <!-- Form -->
+
+      </div>
+
+    </div>
+    <!-- Material form register -->
+  </div>
 
 {% endblock %}
 

@@ -90,6 +90,10 @@ THIRD_PARTY_APPS = [
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
+    'allauth.socialaccount.providers.discord',
+    'allauth.socialaccount.providers.facebook',
+    'allauth.socialaccount.providers.github',
+    'allauth.socialaccount.providers.google',
     'rest_framework',
     'fontawesome',
     'xlrd',
@@ -336,3 +340,4 @@ WAGTAIL_SITE_NAME = "BitXConvert"
 # }
 
 # NEED TO MIGRATE
+
