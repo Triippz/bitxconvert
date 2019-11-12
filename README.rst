@@ -7,8 +7,6 @@ An application which will convert xls files from selected exchanges, and convert
      :target: https://github.com/pydanny/cookiecutter-django/
      :alt: Built with Cookiecutter Django
 
-.. image:: https://travis-ci.com/Triippz/bitxconvert.svg?token=UxHToptaUix7fZUuNxUy&branch=master
-    :target: https://travis-ci.com/Triippz/bitxconvert
 
 
 Settings
